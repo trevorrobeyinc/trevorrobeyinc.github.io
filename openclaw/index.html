@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenClaw Research Intelligence | Citation-Backed Biomedical Data</title>
+<meta name="description" content="Autonomous multi-agent research engine producing citation-backed pharmacovigilance, drug discovery, and clinical trial intelligence. Every claim maps to a verifiable identifier.">
+<meta property="og:title" content="OpenClaw Research Intelligence">
+<meta property="og:description" content="Citation-backed biomedical intelligence. 200+ verified citations per report. Every PMID, NCT, and DrugBank ID resolves.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://trevorrobeyinc.github.io">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%230a0a0f'/><text x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' fill='%234a90d9' font-family='monospace' font-size='14' font-weight='bold'>OC</text></svg>">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OpenClaw Research Intelligence">
+<meta name="twitter:description" content="Citation-backed biomedical intelligence. 200+ verified citations per report.">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0f;
+  --card: #12121a;
+  --card-border: #1e1e2a;
+  --text: #e8e8ec;
+  --text-secondary: #8888a0;
+  --accent: #4a90d9;
+  --accent-hover: #5da0e9;
+  --font-data: "SF Mono", "Fira Code", "Consolas", monospace;
+  --font-body: "Inter", "Helvetica Neue", "Arial", sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); }
+
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── Hero ── */
+.hero {
+  padding: 96px 0 72px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.hero-label {
+  font-family: var(--font-data);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.hero h1 {
+  font-family: var(--font-body);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 20px;
+  max-width: 680px;
+}
+
+.hero p {
+  color: var(--text-secondary);
+  font-size: 17px;
+  max-width: 600px;
+  margin-bottom: 32px;
+  line-height: 1.7;
+}
+
+.cta {
+  display: inline-block;
+  font-family: var(--font-data);
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--accent);
+  padding: 14px 28px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.cta:hover { background: var(--accent-hover); color: var(--bg); }
+
+.cta-secondary {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  margin-left: 16px;
+}
+
+.cta-secondary:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* ── Section ── */
+section {
+  padding: 72px 0;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.section-label {
+  font-family: var(--font-data);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+
+/* ── Products Grid ── */
+.products-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.product-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  padding: 28px;
+}
+
+.product-card h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.product-card .stat {
+  font-family: var(--font-data);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.product-card .stat-label {
+  font-family: var(--font-data);
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.product-card p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-top: 12px;
+  line-height: 1.6;
+}
+
+.product-card .sources {
+  font-family: var(--font-data);
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--card-border);
+}
+
+/* ── How It Works ── */
+.pipeline {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.pipeline-step {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  padding: 28px;
+}
+
+.pipeline-step .step-number {
+  font-family: var(--font-data);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.pipeline-step h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.pipeline-step p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ── Sample Output ── */
+.sample-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.sample-stat {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  padding: 24px;
+  text-align: center;
+}
+
+.sample-stat .value {
+  font-family: var(--font-data);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.sample-stat .label {
+  font-family: var(--font-data);
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 8px;
+}
+
+.sample-citations {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  padding: 28px;
+  margin-bottom: 32px;
+}
+
+.sample-citations h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.citation-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-data);
+  font-size: 13px;
+}
+
+.citation-table th {
+  text-align: left;
+  color: var(--text-secondary);
+  font-weight: 400;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.citation-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--card-border);
+  color: var(--text);
+}
+
+.citation-table tr:last-child td {
+  border-bottom: none;
+}
+
+.sample-note {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-style: italic;
+  margin-bottom: 32px;
+}
+
+/* ── Pricing ── */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.pricing-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  padding: 36px 28px;
+}
+
+.pricing-card.featured {
+  border-color: var(--accent);
+}
+
+.pricing-card h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.pricing-card .price {
+  font-family: var(--font-data);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.pricing-card .price-unit {
+  font-family: var(--font-data);
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+.pricing-card ul {
+  list-style: none;
+  margin-bottom: 28px;
+}
+
+.pricing-card li {
+  color: var(--text-secondary);
+  font-size: 14px;
+  padding: 6px 0;
+  padding-left: 20px;
+  position: relative;
+}
+
+.pricing-card li::before {
+  content: "\2013";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+
+/* ── Contact ── */
+.contact {
+  padding: 72px 0 48px;
+  border-bottom: none;
+}
+
+.contact-info {
+  margin-bottom: 32px;
+}
+
+.contact-info a {
+  font-family: var(--font-data);
+  font-size: 15px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.legal {
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.6;
+  max-width: 680px;
+}
+
+.legal p {
+  margin-bottom: 8px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .hero { padding: 64px 0 48px; }
+  .hero h1 { font-size: 28px; }
+  .hero p { font-size: 15px; }
+
+  .products-grid,
+  .pipeline,
+  .pricing-grid { grid-template-columns: 1fr; }
+
+  .sample-stats { grid-template-columns: 1fr 1fr; }
+
+  .cta-secondary { margin-left: 0; margin-top: 12px; display: inline-block; }
+
+  section { padding: 48px 0; }
+}
+
+@media (max-width: 960px) {
+  .pricing-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .sample-stats { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-label">OpenClaw Research Intelligence</div>
+    <h1>Citation-backed biomedical intelligence for enterprise decision-making</h1>
+    <p>Autonomous multi-agent research engine that synthesizes pharmacovigilance signals, drug discovery data, and clinical trial landscapes from authoritative databases. Every claim maps to a verifiable identifier. No hallucinated references.</p>
+    <a href="mailto:trevor@trevorrobey.com?subject=Request%3A%20Sample%20Deliverable&body=I%27d%20like%20to%20review%20a%20sample%20deliverable%20from%20OpenClaw%20Research%20Intelligence." class="cta">Request Sample Deliverable</a>
+    <a href="#products" class="cta cta-secondary">View Products</a>
+  </div>
+</header>
+
+<!-- Products -->
+<section id="products">
+  <div class="container">
+    <div class="section-label">Intelligence Products</div>
+    <h2 class="section-title">Research-grade data packs</h2>
+    <div class="products-grid">
+      <div class="product-card">
+        <h3>Pharmacovigilance Signal Synthesis</h3>
+        <div class="stat">135+</div>
+        <div class="stat-label">Verified citations per report</div>
+        <p>Adverse event signal detection, FAERS disproportionality analysis, drug interaction profiling, and clinical action recommendations across compound cohorts.</p>
+        <div class="sources">OpenFDA FAERS, DailyMed, RxNorm, PubMed, DrugBank</div>
+      </div>
+      <div class="product-card">
+        <h3>Drug Discovery Intelligence</h3>
+        <div class="stat">200+</div>
+        <div class="stat-label">Verified citations per report</div>
+        <p>Compound profiling with ADMET properties, target-compound mapping, molecular interaction networks, and competitive landscape analysis.</p>
+        <div class="sources">PubChem, ChEMBL, DrugBank, UniProt, OpenTargets</div>
+      </div>
+      <div class="product-card">
+        <h3>Clinical Trial Landscape</h3>
+        <div class="stat">180+</div>
+        <div class="stat-label">Verified citations per report</div>
+        <p>Global trial mapping, endpoint analysis, enrollment trends, competitor pipeline tracking, and regulatory milestone timelines.</p>
+        <div class="sources">ClinicalTrials.gov, PubMed, WHO ICTRP, EuropePMC</div>
+      </div>
+      <div class="product-card">
+        <h3>Target Validation Dossier</h3>
+        <div class="stat">289+</div>
+        <div class="stat-label">Verified citations per report</div>
+        <p>Multi-omics target-disease association scoring, genetic evidence mapping, tissue expression profiling, and druggability assessment.</p>
+        <div class="sources">OpenTargets, UniProt, HPA, ChEMBL, DrugBank</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section id="pipeline">
+  <div class="container">
+    <div class="section-label">Research Pipeline</div>
+    <h2 class="section-title">How it works</h2>
+    <div class="pipeline">
+      <div class="pipeline-step">
+        <div class="step-number">01 &mdash; Scout</div>
+        <h3>Systematic Database Scan</h3>
+        <p>Autonomous scan of FDA registries, peer-reviewed literature, and pharmacological databases. Cross-reference normalization across identifier systems (PMID, NCT, DrugBank, PubChem CID, UniProt).</p>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-number">02 &mdash; Analyst</div>
+        <h3>Quantitative Signal Analysis</h3>
+        <p>Disproportionality metrics (ROR, PRR), drug interaction matrices, pharmacokinetic and pharmacodynamic profiling with molecular-level specificity.</p>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-number">03 &mdash; Synthesizer</div>
+        <h3>Cross-Validated Synthesis</h3>
+        <p>Signal hierarchy integrating scout and analyst outputs. Contradiction resolution, confidence tier assignment, and actionable clinical or strategic recommendations.</p>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-number">04 &mdash; Quality Audit</div>
+        <h3>Citation Verification</h3>
+        <p>Automated enforcement of citation density thresholds. Cross-reference validation, append-only evidence ledger with SHA-256 chain-hashed integrity, provenance tracking.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sample Output -->
+<section id="sample">
+  <div class="container">
+    <div class="section-label">Verified Output</div>
+    <h2 class="section-title">Sample: Pharmacovigilance Signal Synthesis</h2>
+    <div class="sample-stats">
+      <div class="sample-stat">
+        <div class="value">41</div>
+        <div class="label">Verified Citations</div>
+      </div>
+      <div class="sample-stat">
+        <div class="value">7</div>
+        <div class="label">Identifier Types</div>
+      </div>
+      <div class="sample-stat">
+        <div class="value">48</div>
+        <div class="label">Pages</div>
+      </div>
+      <div class="sample-stat">
+        <div class="value">3</div>
+        <div class="label">Agent Sections</div>
+      </div>
+    </div>
+    <div class="sample-citations">
+      <h3>Sample Citation Index</h3>
+      <table class="citation-table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Identifier</th>
+            <th>Context</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>PMID</td>
+            <td>30232222</td>
+            <td>ICI myocarditis systematic review, JACC 2018</td>
+          </tr>
+          <tr>
+            <td>NCT</td>
+            <td>NCT00302159</td>
+            <td>Valproic acid + temozolomide in GBM</td>
+          </tr>
+          <tr>
+            <td>DrugBank</td>
+            <td>DB09035</td>
+            <td>Nivolumab (Opdivo) pharmacology</td>
+          </tr>
+          <tr>
+            <td>DOI</td>
+            <td>10.1056/NEJMoa1716078</td>
+            <td>NEJM: ICI cardiac adverse events</td>
+          </tr>
+          <tr>
+            <td>UniProt</td>
+            <td>P11712</td>
+            <td>CYP2C9 enzyme &mdash; VPA/TMZ interaction</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sample-note">Every identifier above resolves in its source database. Check PMID:30232222 at pubmed.ncbi.nlm.nih.gov &mdash; it resolves to Wang et al., JACC 2018.</p>
+    <a href="mailto:trevor@trevorrobey.com?subject=Request%3A%20Full%20Sample%20Deliverable&body=I%27d%20like%20to%20review%20the%20full%2048-page%20pharmacovigilance%20sample%20deliverable." class="cta">Request Full Sample</a>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-label">Engagement</div>
+    <h2 class="section-title">Pricing</h2>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3>Research Intelligence Pack</h3>
+        <div class="price">$2,500 &ndash; $4,950</div>
+        <div class="price-unit">per report</div>
+        <ul>
+          <li>Single-topic research report (48+ pages)</li>
+          <li>200+ verified citations across all identifier types</li>
+          <li>Citation index CSV with provenance</li>
+          <li>Methodology statement</li>
+          <li>72-hour delivery via secure email</li>
+        </ul>
+        <a href="mailto:trevor@trevorrobey.com?subject=Research%20Intelligence%20Pack%20Request&body=I%27d%20like%20to%20request%20a%20Research%20Intelligence%20Pack.%20Topic%3A%20" class="cta">Request a Pack</a>
+      </div>
+      <div class="pricing-card">
+        <h3>Custom Intelligence Mission</h3>
+        <div class="price">$15,000 &ndash; $35,000</div>
+        <div class="price-unit">per project</div>
+        <ul>
+          <li>Choose any pharmacovigilance, drug discovery, or competitive intelligence topic</li>
+          <li>Full multi-section research report (40&ndash;80+ pages)</li>
+          <li>Citation index CSV with full provenance chain</li>
+          <li>Methodology statement and schema definition</li>
+          <li>Evidence appendix with chain-hashed integrity</li>
+          <li>Delivery via Snowflake, AWS Data Exchange, or BigQuery</li>
+        </ul>
+        <a href="mailto:trevor@trevorrobey.com?subject=Custom%20Intelligence%20Mission%20Inquiry&body=I%27m%20interested%20in%20a%20custom%20intelligence%20mission.%20Topic%3A%20" class="cta">Initiate Mission</a>
+      </div>
+      <div class="pricing-card featured">
+        <h3>Enterprise Intelligence Subscription</h3>
+        <div class="price">$60,000 &ndash; $120,000+</div>
+        <div class="price-unit">annual recurring</div>
+        <ul>
+          <li>Scheduled pharmacovigilance scans on compounds of interest</li>
+          <li>API access for programmatic workflow submission</li>
+          <li>Native integration with your data infrastructure</li>
+          <li>Usage metering and SLA</li>
+          <li>Custom schema design for your ingestion pipeline</li>
+          <li>Dedicated support</li>
+        </ul>
+        <a href="mailto:trevor@trevorrobey.com?subject=Enterprise%20Subscription%20Inquiry&body=I%27d%20like%20to%20discuss%20an%20enterprise%20intelligence%20subscription." class="cta">Contact Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<footer class="contact">
+  <div class="container">
+    <div class="section-label">Contact</div>
+    <h2 class="section-title">Start a conversation</h2>
+    <div class="contact-info">
+      <a href="mailto:trevor@trevorrobey.com">trevor@trevorrobey.com</a>
+      <a href="https://trevorrobeyinc.github.io">trevorrobeyinc.github.io</a>
+    </div>
+    <div class="legal">
+      <p>Reports produced using AI-assisted research synthesis with human editorial oversight. All citations independently verifiable in their respective source databases.</p>
+      <p>Trevor Robey Inc. | OpenClaw Research Intelligence</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

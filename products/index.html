@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inside the Engine — Trevor Robey Intelligence Network Citations</title>
+<meta name="description" content="An interactive 3D walkthrough of the OpenClaw research engine — the multi-agent pipeline, citation-integrity layer, four intelligence products, and AWS delivery architecture behind Trevor Robey, INC.">
+<meta property="og:title" content="Inside the Engine — Trevor Robey, INC.">
+<meta property="og:description" content="Interactive 3D architecture of a citation-backed biomedical research engine: Scout → Analyst → Synthesizer → Quality Audit, four data products, and native AWS delivery.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230a0a0f'/><text x='50%25' y='55%25' dominant-baseline='central' text-anchor='middle' fill='%234a90d9' font-family='monospace' font-size='13' font-weight='bold'>TR</text></svg>">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0f;
+  --bg-soft: #0d0d14;
+  --card: #12121a;
+  --card-border: #1e1e2a;
+  --card-border-hi: #2c3350;
+  --text: #e8e8ec;
+  --text-secondary: #8888a0;
+  --accent: #4a90d9;
+  --accent-hover: #5da0e9;
+  --accent-dim: #2a4368;
+  --good: #4ad991;
+  --warn: #d9a24a;
+  --font-data: "SF Mono", "Fira Code", "Consolas", ui-monospace, monospace;
+  --font-body: "Inter", "Helvetica Neue", "Arial", sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.mono { font-family: var(--font-data); }
+
+/* ── Nav ── */
+nav {
+  position: sticky; top: 0; z-index: 30;
+  background: rgba(10,10,15,0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--card-border);
+}
+.nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 13px 0; }
+.nav-back { color: var(--text); font-weight: 600; font-size: 14px; }
+.nav-back:hover { color: var(--accent); }
+.nav-links { display: flex; gap: 20px; align-items: center; }
+.nav-links a { font-size: 13.5px; color: var(--text-secondary); }
+.nav-links a:hover { color: var(--accent); }
+.nav-cta {
+  font-family: var(--font-data); font-size: 12px; letter-spacing: 0.5px;
+  color: var(--bg) !important; background: var(--accent);
+  padding: 7px 14px; border-radius: 6px;
+}
+.nav-cta:hover { background: var(--accent-hover); }
+
+/* ── Hero ── */
+.hero { padding: 60px 0 24px; }
+.hero-label {
+  font-family: var(--font-data); font-size: 11px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
+}
+.hero h1 { font-size: 40px; line-height: 1.12; max-width: 780px; margin-bottom: 16px; letter-spacing: -0.5px; }
+.hero p { color: var(--text-secondary); font-size: 17px; max-width: 680px; line-height: 1.7; }
+
+/* ── 3D stage ── */
+.stage-wrap { padding: 12px 0 8px; }
+.stage {
+  position: relative;
+  width: 100%; height: 560px;
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  background:
+    radial-gradient(1200px 400px at 50% -10%, rgba(74,144,217,0.10), transparent 70%),
+    linear-gradient(180deg, #0c0c13, #090910);
+  overflow: hidden;
+}
+#scene { position: absolute; inset: 0; display: block; }
+.label3d {
+  font-family: var(--font-data); font-size: 11px; letter-spacing: 0.5px;
+  color: #cfe0f5; background: rgba(9,12,20,0.72);
+  border: 1px solid rgba(74,144,217,0.35); border-radius: 5px;
+  padding: 2px 7px; white-space: nowrap; pointer-events: none;
+  transform: translate(-50%, -140%); user-select: none;
+  text-shadow: 0 1px 2px #000;
+}
+.label3d.dim { opacity: 0.42; }
+
+/* controls overlay */
+.chapters {
+  position: absolute; top: 14px; left: 14px; z-index: 5;
+  display: flex; flex-wrap: wrap; gap: 6px; max-width: calc(100% - 28px);
+}
+.chapter-btn {
+  font-family: var(--font-data); font-size: 11.5px; letter-spacing: 0.4px;
+  color: var(--text-secondary); background: rgba(18,18,26,0.8);
+  border: 1px solid var(--card-border); border-radius: 6px;
+  padding: 6px 11px; cursor: pointer; transition: all 0.15s;
+}
+.chapter-btn:hover { color: var(--text); border-color: var(--card-border-hi); }
+.chapter-btn.active { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+.hint {
+  position: absolute; bottom: 12px; left: 14px; z-index: 5;
+  font-family: var(--font-data); font-size: 11px; color: var(--text-secondary);
+  background: rgba(9,9,14,0.6); padding: 4px 9px; border-radius: 5px;
+  pointer-events: none;
+}
+.legend {
+  position: absolute; bottom: 12px; right: 14px; z-index: 5;
+  display: flex; gap: 14px; font-family: var(--font-data); font-size: 10.5px;
+  color: var(--text-secondary); background: rgba(9,9,14,0.6);
+  padding: 5px 10px; border-radius: 5px; pointer-events: none; flex-wrap: wrap;
+}
+.legend span { display: inline-flex; align-items: center; gap: 5px; }
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+
+/* detail panel */
+.detail {
+  position: absolute; top: 0; right: 0; z-index: 10;
+  width: min(360px, 82%); height: 100%;
+  background: rgba(12,12,19,0.95);
+  border-left: 1px solid var(--card-border-hi);
+  padding: 22px 22px 22px; overflow-y: auto;
+  transform: translateX(102%); transition: transform 0.28s ease;
+  backdrop-filter: blur(6px);
+}
+.detail.open { transform: translateX(0); }
+.detail-kicker { font-family: var(--font-data); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.detail h3 { font-size: 20px; margin-bottom: 10px; line-height: 1.2; }
+.detail p { color: var(--text-secondary); font-size: 14px; margin-bottom: 14px; }
+.detail .kv { font-family: var(--font-data); font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; }
+.detail .kv b { color: var(--text); font-weight: 600; }
+.detail .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.detail .chip { font-family: var(--font-data); font-size: 11px; color: #bcd4f0; background: rgba(74,144,217,0.12); border: 1px solid rgba(74,144,217,0.28); border-radius: 999px; padding: 3px 9px; }
+.detail-close { position: absolute; top: 12px; right: 14px; background: none; border: none; color: var(--text-secondary); font-size: 22px; line-height: 1; cursor: pointer; }
+.detail-close:hover { color: var(--text); }
+
+/* WebGL fallback */
+.fallback { display: none; }
+.stage.is-fallback #scene, .stage.is-fallback .chapters,
+.stage.is-fallback .hint, .stage.is-fallback .legend, .stage.is-fallback .detail { display: none; }
+.stage.is-fallback { height: auto; padding: 24px; }
+.stage.is-fallback .fallback { display: block; }
+.fallback svg { width: 100%; height: auto; }
+.fallback-note { font-family: var(--font-data); font-size: 11.5px; color: var(--text-secondary); text-align: center; margin-top: 14px; }
+
+/* ── Generic sections ── */
+section { padding: 52px 0; }
+.section-head { margin-bottom: 26px; }
+.section-kicker { font-family: var(--font-data); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+.section-head h2 { font-size: 27px; letter-spacing: -0.3px; }
+.section-head p { color: var(--text-secondary); margin-top: 8px; max-width: 680px; }
+
+.flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.step { background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; padding: 20px; position: relative; }
+.step .num { font-family: var(--font-data); font-size: 12px; color: var(--accent); letter-spacing: 1px; }
+.step h3 { font-size: 16px; margin: 8px 0 4px; }
+.step .role { font-family: var(--font-data); font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+.step p { font-size: 13.5px; color: var(--text-secondary); }
+
+.products { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.product { background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; padding: 22px; display: flex; flex-direction: column; }
+.product .top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.product h3 { font-size: 17px; }
+.product .stat { font-family: var(--font-data); color: var(--accent); font-size: 15px; font-weight: 600; white-space: nowrap; }
+.product .stat small { display: block; font-size: 10px; color: var(--text-secondary); font-weight: 400; letter-spacing: 0.5px; text-transform: uppercase; }
+.product p { font-size: 13.5px; color: var(--text-secondary); margin: 10px 0 14px; }
+.sources { font-family: var(--font-data); font-size: 11px; color: var(--text-secondary); margin-top: auto; border-top: 1px solid var(--card-border); padding-top: 12px; }
+.sources b { color: #bcd4f0; font-weight: 500; }
+
+.delivery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.dstep { background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; padding: 18px; }
+.dstep .num { font-family: var(--font-data); font-size: 11px; color: var(--accent); }
+.dstep h3 { font-size: 14.5px; margin: 7px 0 4px; }
+.dstep .svc { font-family: var(--font-data); font-size: 10.5px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 9px; }
+.dstep p { font-size: 12.5px; color: var(--text-secondary); }
+
+.engage { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.tier { background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; }
+.tier h3 { font-size: 16px; margin-bottom: 6px; }
+.tier .price { font-family: var(--font-data); color: var(--accent); font-size: 14px; margin-bottom: 10px; }
+.tier p { font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; }
+.tier .cta { margin-top: auto; font-family: var(--font-data); font-size: 12px; letter-spacing: 0.5px; color: var(--bg); background: var(--accent); text-align: center; padding: 10px; border-radius: 7px; }
+.tier .cta:hover { background: var(--accent-hover); color: var(--bg); }
+
+.verify-note {
+  margin-top: 22px; background: var(--bg-soft); border: 1px solid var(--card-border);
+  border-left: 3px solid var(--accent); border-radius: 8px; padding: 16px 18px;
+}
+.verify-note .t { font-family: var(--font-data); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.verify-note p { font-size: 13.5px; color: var(--text-secondary); }
+
+/* ── Footer ── */
+footer { border-top: 1px solid var(--card-border); padding: 40px 0 56px; }
+footer .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 26px; }
+footer .btn { font-size: 14px; font-weight: 600; padding: 11px 20px; border-radius: 8px; border: 1.5px solid var(--accent); }
+footer .btn-primary { background: var(--accent); color: var(--bg); }
+footer .btn-primary:hover { background: var(--accent-hover); color: var(--bg); }
+footer .btn-secondary { color: var(--accent); }
+.legal { font-size: 12px; color: var(--text-secondary); line-height: 1.7; max-width: 780px; }
+.legal .disc { margin-top: 10px; }
+
+@media (max-width: 860px) {
+  .flow { grid-template-columns: 1fr 1fr; }
+  .delivery { grid-template-columns: 1fr 1fr; }
+  .engage { grid-template-columns: 1fr; }
+  .products { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .hero h1 { font-size: 30px; }
+  .stage { height: 460px; }
+  .flow { grid-template-columns: 1fr; }
+  .delivery { grid-template-columns: 1fr; }
+  .nav-links a:not(.nav-cta) { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a class="nav-back" href="../">← Portfolio</a>
+    <div class="nav-links">
+      <a href="#pipeline">Pipeline</a>
+      <a href="#products">Products</a>
+      <a href="#delivery">Delivery</a>
+      <a href="https://trevorobeyinc.com/" target="_blank" rel="noopener">Business site ↗</a>
+      <a class="nav-cta" href="mailto:trevoralexanderrobey@gmail.com">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-label">Inside the Engine</div>
+    <h1>How the OpenClaw research engine turns public databases into citation-backed intelligence.</h1>
+    <p>
+      Trevor Robey, INC. runs an autonomous multi-agent engine that scans authoritative public
+      biomedical registries, analyzes them for signal, and ships reports in which every claim is
+      tied to a real, checkable identifier. Drag the diagram to explore the pipeline — or read the
+      full architecture below.
+    </p>
+  </div>
+</header>
+
+<div class="stage-wrap">
+  <div class="container">
+    <div class="stage" id="stage">
+      <canvas id="scene"></canvas>
+      <div class="chapters" id="chapters">
+        <button class="chapter-btn active" data-view="overview">Overview</button>
+        <button class="chapter-btn" data-view="sources">Sources</button>
+        <button class="chapter-btn" data-view="pipeline">Pipeline</button>
+        <button class="chapter-btn" data-view="verify">Verification</button>
+        <button class="chapter-btn" data-view="products">Products</button>
+        <button class="chapter-btn" data-view="delivery">Delivery</button>
+      </div>
+      <div class="hint">Drag to rotate · scroll to zoom · click a node</div>
+      <div class="legend">
+        <span><i class="dot" style="background:#8888a0"></i>Sources</span>
+        <span><i class="dot" style="background:#4a90d9"></i>Agents</span>
+        <span><i class="dot" style="background:#4ad991"></i>Integrity</span>
+        <span><i class="dot" style="background:#c48be0"></i>Products</span>
+        <span><i class="dot" style="background:#d9a24a"></i>Delivery</span>
+      </div>
+      <aside class="detail" id="detail">
+        <button class="detail-close" id="detailClose" aria-label="Close">×</button>
+        <div class="detail-kicker" id="dKicker"></div>
+        <h3 id="dTitle"></h3>
+        <p id="dBody"></p>
+        <div id="dMeta"></div>
+        <div class="chips" id="dChips"></div>
+      </aside>
+
+      <!-- Static fallback (no WebGL / reduced motion) -->
+      <div class="fallback">
+        <svg viewBox="0 0 900 200" role="img" aria-label="Research engine pipeline: sources feed Scout, Analyst, Synthesizer, and Quality Audit, producing products delivered over AWS.">
+          <defs>
+            <marker id="arw" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#4a90d9"/></marker>
+          </defs>
+          <g font-family="monospace" font-size="12" fill="#cfe0f5" text-anchor="middle">
+            <rect x="10"  y="78" width="120" height="44" rx="7" fill="#12121a" stroke="#3a3a4a"/><text x="70"  y="104">Public Sources</text>
+            <rect x="170" y="78" width="90"  height="44" rx="7" fill="#12121a" stroke="#4a90d9"/><text x="215" y="104">Scout</text>
+            <rect x="300" y="78" width="90"  height="44" rx="7" fill="#12121a" stroke="#4a90d9"/><text x="345" y="104">Analyst</text>
+            <rect x="430" y="78" width="110" height="44" rx="7" fill="#12121a" stroke="#4a90d9"/><text x="485" y="104">Synthesizer</text>
+            <rect x="580" y="78" width="120" height="44" rx="7" fill="#12121a" stroke="#4ad991"/><text x="640" y="98">Quality</text><text x="640" y="112">Audit</text>
+            <rect x="740" y="78" width="150" height="44" rx="7" fill="#12121a" stroke="#d9a24a"/><text x="815" y="98">Products</text><text x="815" y="112">→ AWS delivery</text>
+            <g stroke="#4a90d9" stroke-width="1.5" marker-end="url(#arw)" fill="none">
+              <line x1="130" y1="100" x2="168" y2="100"/><line x1="260" y1="100" x2="298" y2="100"/>
+              <line x1="390" y1="100" x2="428" y2="100"/><line x1="540" y1="100" x2="578" y2="100"/>
+              <line x1="700" y1="100" x2="738" y2="100"/>
+            </g>
+          </g>
+        </svg>
+        <div class="fallback-note">Interactive 3D is disabled (no WebGL or reduced-motion). Full architecture is detailed below.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="pipeline">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-kicker">The Pipeline</div>
+      <h2>Four agent roles, in sequence</h2>
+      <p>Each mission runs as a chain of specialized agents on the OpenClaw framework (Claude Opus reasoning, ~2,100 biomedical tools via the Harvard ToolUniverse toolkit). The run is fail-closed: it stops rather than ship an unverifiable claim.</p>
+    </div>
+    <div class="flow">
+      <div class="step">
+        <div class="num">01</div><h3>Systematic Database Scan</h3><div class="role">Scout</div>
+        <p>Autonomous scan of FDA registries, peer-reviewed literature, and pharmacological databases, with cross-reference normalization across identifier systems (PMID, NCT, RxNorm, PubChem CID, UniProt).</p>
+      </div>
+      <div class="step">
+        <div class="num">02</div><h3>Quantitative Signal Analysis</h3><div class="role">Analyst</div>
+        <p>Disproportionality metrics (ROR, PRR), drug-interaction matrices, and pharmacokinetic / pharmacodynamic profiling with molecular-level specificity.</p>
+      </div>
+      <div class="step">
+        <div class="num">03</div><h3>Cross-Validated Synthesis</h3><div class="role">Synthesizer</div>
+        <p>Integrates scout and analyst outputs into a signal hierarchy: contradiction resolution, confidence-tier assignment, and actionable clinical or strategic recommendations.</p>
+      </div>
+      <div class="step">
+        <div class="num">04</div><h3>Citation Verification</h3><div class="role">Quality Audit</div>
+        <p>Enforces citation-density thresholds and grounds every cited identifier against the evidence actually retrieved at runtime; screens DOIs for retractions; seals a chain-hashed provenance ledger.</p>
+      </div>
+    </div>
+    <div class="verify-note">
+      <div class="t">How verification actually works</div>
+      <p>Citations aren't taken on faith. Each cited identifier is checked against the set of records the engine truly fetched during the run — a run whose grounded ratio falls below threshold hard-fails instead of shipping. Cited DOIs are screened against Crossref for retractions, and the evidence trail is written to an append-only, SHA-256 chain-hashed ledger that earns each report a graded A–F integrity rating. The standard is simple: if a claim can't be traced to a source, it doesn't ship.</p>
+    </div>
+  </div>
+</section>
+
+<section id="products" style="background:var(--bg-soft);">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-kicker">Intelligence Products</div>
+      <h2>Four research-grade data packs</h2>
+      <p>Each pack is a citation-traced dossier built from a defined set of open, public databases — no PHI, no unlicensed data.</p>
+    </div>
+    <div class="products">
+      <div class="product">
+        <div class="top"><h3>Pharmacovigilance Signal Synthesis</h3><div class="stat">135+<small>citations / report</small></div></div>
+        <p>Adverse-event signal detection, AEMS disproportionality analysis, drug-interaction profiling, and clinical-action recommendations across compound cohorts.</p>
+        <div class="sources">Sources: <b>OpenFDA AEMS</b> · <b>DailyMed</b> · <b>RxNorm</b> · <b>PubMed</b> · <b>OpenFDA</b></div>
+      </div>
+      <div class="product">
+        <div class="top"><h3>Drug Discovery Intelligence</h3><div class="stat">200+<small>citations / report</small></div></div>
+        <p>Compound profiling with ADMET properties, target–compound mapping, molecular interaction networks, and competitive landscape analysis.</p>
+        <div class="sources">Sources: <b>PubChem</b> · <b>ChEMBL</b> · <b>RxNorm</b> · <b>UniProt</b> · <b>OpenTargets</b></div>
+      </div>
+      <div class="product">
+        <div class="top"><h3>Clinical Trial Landscape</h3><div class="stat">180+<small>citations / report</small></div></div>
+        <p>Global trial mapping, endpoint analysis, enrollment trends, competitor-pipeline tracking, and regulatory-milestone timelines.</p>
+        <div class="sources">Sources: <b>ClinicalTrials.gov</b> · <b>PubMed</b> · <b>WHO ICTRP</b> · <b>EuropePMC</b></div>
+      </div>
+      <div class="product">
+        <div class="top"><h3>Target Validation Dossier</h3><div class="stat">289+<small>citations / report</small></div></div>
+        <p>Multi-omics target–disease association scoring, genetic-evidence mapping, tissue-expression profiling, and druggability assessment.</p>
+        <div class="sources">Sources: <b>OpenTargets</b> · <b>UniProt</b> · <b>HPA</b> · <b>ChEMBL</b> · <b>RxNorm</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="delivery">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-kicker">Delivery Architecture</div>
+      <h2>Native AWS data-product delivery</h2>
+      <p>Output schemas are built to land directly in a subscriber's cloud — reports, citation-index tables, and provenance manifests, queryable in place.</p>
+    </div>
+    <div class="delivery">
+      <div class="dstep"><div class="num">01</div><h3>Per-subscriber buckets</h3><div class="svc">Amazon S3</div><p>Dossiers, citation-index CSVs, and provenance manifests land in a dedicated bucket on a defined schedule.</p></div>
+      <div class="dstep"><div class="num">02</div><h3>SQL-queryable indexes</h3><div class="svc">Amazon Athena</div><p>Citation indexes ship as Parquet — filter by PMID, NCT, ChEMBL, or DOI and join against internal data.</p></div>
+      <div class="dstep"><div class="num">03</div><h3>Warehouse federation</h3><div class="svc">Redshift / Snowflake</div><p>Schemas designed for Redshift and Snowflake secure data sharing — federate dossier metadata into your analytics warehouse.</p></div>
+      <div class="dstep"><div class="num">04</div><h3>Marketplace listing</h3><div class="svc">AWS Data Exchange</div><p>Structured for discovery in the AWS Marketplace catalog — built for biotech investors, funds, and pharma BD teams running diligence on AWS.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="engage" style="background:var(--bg-soft);">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-kicker">Engagements</div>
+      <h2>Ways to work with the engine</h2>
+    </div>
+    <div class="engage">
+      <div class="tier">
+        <h3>Research Intelligence Pack</h3>
+        <div class="price">$2,500 – $4,950 / report</div>
+        <p>Single-topic dossier (48+ pages), 200+ verified citations across all identifier types, citation-index CSV with provenance, and a methodology statement.</p>
+        <a class="cta" href="https://trevorobeyinc.com/" target="_blank" rel="noopener">Request a report ↗</a>
+      </div>
+      <div class="tier">
+        <h3>Investor Pre-Mortem</h3>
+        <div class="price">$9,950 / $14,950 / $19,950</div>
+        <p>Per-asset risk dossier — trial design, comparable failures, KOL sentiment, IP runway — with every claim traced to a PMID, NCT, ChEMBL, or DOI, under a refund-backed citation-audit SLA.</p>
+        <a class="cta" href="https://trevorobeyinc.com/" target="_blank" rel="noopener">Discuss an engagement ↗</a>
+      </div>
+      <div class="tier">
+        <h3>Failed Trial Archaeology &amp; Custom</h3>
+        <div class="price">Scoped per engagement</div>
+        <p>Structured post-mortems of Phase 2/3 terminations (NCT-indexed failure matrix), plus custom multi-asset and ongoing portfolio coverage scoped via a discovery call.</p>
+        <a class="cta" href="mailto:trevoralexanderrobey@gmail.com">Start a conversation</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://trevorobeyinc.com/" target="_blank" rel="noopener">Visit the business site ↗</a>
+      <a class="btn btn-secondary" href="../">← Back to portfolio</a>
+      <a class="btn btn-secondary" href="mailto:trevoralexanderrobey@gmail.com">Email Trevor</a>
+    </div>
+    <p class="legal">
+      Trevor Robey, INC. is the wordmark of <b>Trevor Robey Intelligence Network Citations LLC</b>,
+      a California limited liability company (Entity No. B20260217250). INC = Intelligence Network
+      Citations. Powered by the OpenClaw open-source agent framework.
+      <span class="disc">Reports are research artifacts produced using AI-assisted research synthesis with human editorial oversight; every cited identifier is a real public identifier verifiable in its source database. For research and informational use only — not clinical decision support, and not a basis for prescribing, diagnostic, or regulatory decisions. No PHI is processed.</span>
+    </p>
+  </div>
+</footer>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "../assets/vendor/three.module.min.js",
+    "three/addons/controls/OrbitControls.js": "../assets/vendor/OrbitControls.js",
+    "three/addons/renderers/CSS2DRenderer.js": "../assets/vendor/CSS2DRenderer.js"
+  }
+}
+</script>
+
+<script type="module">
+const stage = document.getElementById('stage');
+const canvas = document.getElementById('scene');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function webglOK() {
+  try { const c = document.createElement('canvas');
+    return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
+  } catch (e) { return false; }
+}
+
+if (reduceMotion || !webglOK()) {
+  stage.classList.add('is-fallback');
+} else {
+  boot();
+}
+
+async function boot() {
+  let THREE, OrbitControls, CSS2DRenderer, CSS2DObject;
+  try {
+    THREE = await import('three');
+    ({ OrbitControls } = await import('three/addons/controls/OrbitControls.js'));
+    ({ CSS2DRenderer, CSS2DObject } = await import('three/addons/renderers/CSS2DRenderer.js'));
+  } catch (e) {
+    console.warn('3D libs failed to load, showing fallback:', e);
+    stage.classList.add('is-fallback');
+    return;
+  }
+
+  const C = { source:0x8888a0, agent:0x4a90d9, integ:0x4ad991, product:0xc48be0, deliver:0xd9a24a };
+  const nodes = [
+    { id:'sources', name:'Public Sources', kind:'source', pos:[-13,3.4,0], r:0.85,
+      kicker:'Ingestion', body:'Open, public biomedical registries queried via the Harvard ToolUniverse toolkit (~2,100 tools) plus purpose-built fetchers. Public-domain / open-license only — no PHI, no unlicensed data.',
+      meta:[['Access','ToolUniverse + local fetchers'],['Policy','Open sources only · No PHI']],
+      chips:['PubMed','ClinicalTrials.gov','OpenFDA AEMS','ChEMBL','PubChem','RxNorm','UniProt','OpenTargets','WHO ICTRP','EuropePMC','Crossref'] },
+    { id:'scout', name:'Scout', kind:'agent', pos:[-8.5,1.2,0], r:0.75,
+      kicker:'Pipeline · 01', body:'Systematic database scan of FDA registries, peer-reviewed literature, and pharmacological databases, with cross-reference normalization across identifier systems.',
+      meta:[['Role','Scout'],['Normalizes','PMID · NCT · RxNorm · PubChem CID · UniProt']], chips:['Evidence prefetch','ID normalization'] },
+    { id:'analyst', name:'Analyst', kind:'agent', pos:[-4,-0.4,0], r:0.75,
+      kicker:'Pipeline · 02', body:'Quantitative signal analysis: disproportionality metrics (ROR, PRR), drug-interaction matrices, and PK/PD profiling with molecular-level specificity.',
+      meta:[['Role','Analyst'],['Metrics','ROR · PRR · interaction matrices']], chips:['Disproportionality','PK / PD'] },
+    { id:'synth', name:'Synthesizer', kind:'agent', pos:[0.5,1.0,0], r:0.75,
+      kicker:'Pipeline · 03', body:'Cross-validated synthesis: integrates scout and analyst outputs into a signal hierarchy with contradiction resolution, confidence tiers, and actionable recommendations.',
+      meta:[['Role','Synthesizer'],['Output','Confidence-tiered signal hierarchy']], chips:['Contradiction resolution','Confidence tiers'] },
+    { id:'audit', name:'Quality Audit', kind:'integ', pos:[5,-0.2,0], r:0.8,
+      kicker:'Pipeline · 04 · Integrity', body:'Citation verification. Every cited identifier is grounded against the evidence actually fetched at runtime; runs below the grounded-ratio threshold hard-fail. DOIs are screened against Crossref for retractions, and the evidence trail is sealed in a SHA-256 chain-hashed, append-only ledger with a graded A–F integrity rating.',
+      meta:[['Grounding','vs. runtime-fetched evidence'],['Screen','Crossref retraction check'],['Ledger','SHA-256 chain-hashed · A–F grade']], chips:['Zero-fabrication','Retraction screen','Provenance ledger'] },
+    { id:'products', name:'Products', kind:'product', pos:[9.5,1.6,0], r:0.85,
+      kicker:'Deliverables', body:'Four citation-traced data packs: Pharmacovigilance Signal Synthesis (135+), Drug Discovery Intelligence (200+), Clinical Trial Landscape (180+), and Target Validation Dossier (289+ citations per report).',
+      meta:[['Packs','4'],['Every claim','→ a checkable identifier']], chips:['Pharmacovigilance','Drug Discovery','Clinical Trials','Target Validation'] },
+    { id:'delivery', name:'AWS Delivery', kind:'deliver', pos:[13,3.4,0], r:0.8,
+      kicker:'Delivery Architecture', body:'Native AWS data-product delivery: per-subscriber S3 buckets, Parquet citation indexes queryable in Amazon Athena, schemas for Redshift / Snowflake federation, structured for AWS Data Exchange discovery.',
+      meta:[['Landing','Per-subscriber S3'],['Query','Athena (Parquet)'],['Federate','Redshift / Snowflake']], chips:['Amazon S3','Athena','Data Exchange'] },
+  ];
+  const edges = [['sources','scout'],['scout','analyst'],['analyst','synth'],['synth','audit'],['audit','products'],['products','delivery']];
+
+  const views = {
+    overview: { target:[0,1.3,0], dist:24 },
+    sources:  { target:[-13,3.4,0], dist:8 },
+    pipeline: { target:[-1.5,0.3,0], dist:15 },
+    verify:   { target:[5,-0.2,0], dist:7 },
+    products: { target:[9.5,1.6,0], dist:7 },
+    delivery: { target:[13,3.4,0], dist:7 },
+  };
+
+  const W = () => stage.clientWidth, H = () => stage.clientHeight;
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0x090910, 24, 52);
+  const camera = new THREE.PerspectiveCamera(50, W()/H(), 0.1, 200);
+  // Overview distance scales with aspect so the wide pipeline always fits (portrait needs more).
+  function overviewDist(){ return Math.min(62, Math.max(23, 30 / camera.aspect + 6)); }
+  camera.position.set(0, 4, overviewDist());
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(W(), H());
+
+  const labelRenderer = new CSS2DRenderer();
+  labelRenderer.setSize(W(), H());
+  labelRenderer.domElement.style.position = 'absolute';
+  labelRenderer.domElement.style.top = '0';
+  labelRenderer.domElement.style.pointerEvents = 'none';
+  stage.appendChild(labelRenderer.domElement);
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+  const key = new THREE.PointLight(0x8fbcf0, 1.2, 120); key.position.set(6, 14, 18); scene.add(key);
+  const rim = new THREE.PointLight(0x4a90d9, 0.8, 120); rim.position.set(-16, -6, 10); scene.add(rim);
+
+  const starGeo = new THREE.BufferGeometry();
+  const starN = 260, sp = [];
+  for (let i=0;i<starN;i++){ sp.push((Math.random()-0.5)*90,(Math.random()-0.5)*54,(Math.random()-0.5)*60-14); }
+  starGeo.setAttribute('position', new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({ color:0x33405e, size:0.14 })));
+
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true; controls.dampingFactor = 0.08;
+  controls.minDistance = 5; controls.maxDistance = 40;
+  controls.target.set(0, 1.3, 0);
+  controls.autoRotate = true; controls.autoRotateSpeed = 0.45;
+
+  const nodeMap = {};
+  const pickables = [];
+  function resetHighlight(){
+    hovered = null;
+    Object.values(nodeMap).forEach(o => { o.core.material.emissiveIntensity = 0.35; o.el.classList.remove('dim'); o.halo.material.opacity = 0.08; });
+  }
+  const raycaster = new THREE.Raycaster();
+  const pointer = new THREE.Vector2();
+
+  nodes.forEach(n => {
+    const col = C[n.kind];
+    const g = new THREE.Group();
+    g.position.set(...n.pos);
+    const core = new THREE.Mesh(
+      new THREE.IcosahedronGeometry(n.r, 2),
+      new THREE.MeshStandardMaterial({ color: col, emissive: col, emissiveIntensity: 0.35, roughness: 0.35, metalness: 0.3 })
+    );
+    const halo = new THREE.Mesh(
+      new THREE.SphereGeometry(n.r*1.5, 24, 24),
+      new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.08 })
+    );
+    core.userData.node = n; halo.userData.node = n;
+    g.add(core); g.add(halo);
+    scene.add(g);
+
+    const el = document.createElement('div');
+    el.className = 'label3d'; el.textContent = n.name;
+    const label = new CSS2DObject(el);
+    label.position.set(0, n.r + 0.5, 0);
+    g.add(label);
+
+    nodeMap[n.id] = { group:g, core, halo, label, el, base:col, r:n.r };
+    pickables.push(core, halo);
+  });
+
+  const flows = [];
+  edges.forEach(([a,b]) => {
+    const pa = new THREE.Vector3(...nodes.find(n=>n.id===a).pos);
+    const pb = new THREE.Vector3(...nodes.find(n=>n.id===b).pos);
+    const mid = pa.clone().add(pb).multiplyScalar(0.5); mid.y += 1.4;
+    const curve = new THREE.QuadraticBezierCurve3(pa, mid, pb);
+    const tube = new THREE.Mesh(
+      new THREE.TubeGeometry(curve, 40, 0.035, 8, false),
+      new THREE.MeshBasicMaterial({ color: 0x3a5f8f, transparent: true, opacity: 0.5 })
+    );
+    scene.add(tube);
+    const pcount = 5;
+    for (let i=0;i<pcount;i++){
+      const p = new THREE.Mesh(new THREE.SphereGeometry(0.08, 8, 8), new THREE.MeshBasicMaterial({ color: 0x9fd0ff }));
+      scene.add(p);
+      flows.push({ curve, mesh:p, t: i/pcount });
+    }
+  });
+
+  let hovered = null;
+  function setPointer(e){
+    const r = renderer.domElement.getBoundingClientRect();
+    pointer.x = ((e.clientX - r.left)/r.width)*2 - 1;
+    pointer.y = -((e.clientY - r.top)/r.height)*2 + 1;
+  }
+  function pick(){
+    raycaster.setFromCamera(pointer, camera);
+    const hit = raycaster.intersectObjects(pickables, false)[0];
+    return hit ? hit.object.userData.node : null;
+  }
+  renderer.domElement.addEventListener('pointermove', e => {
+    setPointer(e);
+    const n = pick();
+    renderer.domElement.style.cursor = n ? 'pointer' : 'grab';
+    if (n?.id !== hovered) {
+      hovered = n?.id || null;
+      Object.entries(nodeMap).forEach(([id,o]) => {
+        o.core.material.emissiveIntensity = (id===hovered) ? 0.85 : 0.35;
+        o.el.classList.toggle('dim', hovered && id!==hovered);
+        o.halo.material.opacity = (id===hovered) ? 0.16 : 0.08;
+      });
+    }
+  });
+  renderer.domElement.addEventListener('pointerleave', resetHighlight);
+
+  const detail = document.getElementById('detail');
+  const dKicker = document.getElementById('dKicker'), dTitle = document.getElementById('dTitle'),
+        dBody = document.getElementById('dBody'), dMeta = document.getElementById('dMeta'), dChips = document.getElementById('dChips');
+  function openDetail(n){
+    dKicker.textContent = n.kicker; dTitle.textContent = n.name; dBody.textContent = n.body;
+    dMeta.innerHTML = (n.meta||[]).map(([k,v]) => `<div class="kv"><b>${k}:</b> ${v}</div>`).join('');
+    dChips.innerHTML = (n.chips||[]).map(c => `<span class="chip">${c}</span>`).join('');
+    detail.classList.add('open');
+    controls.autoRotate = false;
+  }
+  function closeDetail(){ detail.classList.remove('open'); }
+  document.getElementById('detailClose').addEventListener('click', closeDetail);
+  renderer.domElement.addEventListener('click', e => {
+    setPointer(e); const n = pick();
+    if (n) openDetail(n); else closeDetail();
+  });
+
+  const chapters = document.getElementById('chapters');
+  let tween = null;
+  function goView(v){
+    const view = views[v]; if (!view) return;
+    const dist = (v === 'overview') ? overviewDist() : view.dist;
+    const tgt = new THREE.Vector3(...view.target);
+    const dir = camera.position.clone().sub(controls.target).normalize();
+    const camEnd = tgt.clone().add(dir.multiplyScalar(dist));
+    tween = { t:0, tgtA: controls.target.clone(), tgtB: tgt, camA: camera.position.clone(), camB: camEnd };
+    controls.autoRotate = (v === 'overview');
+  }
+  chapters.addEventListener('click', e => {
+    const b = e.target.closest('.chapter-btn'); if (!b) return;
+    chapters.querySelectorAll('.chapter-btn').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    resetHighlight();
+    goView(b.dataset.view);
+    closeDetail();
+  });
+
+  function onResize(){
+    camera.aspect = W()/H(); camera.updateProjectionMatrix();
+    renderer.setSize(W(), H()); labelRenderer.setSize(W(), H());
+  }
+  window.addEventListener('resize', onResize);
+
+  let running = true, visible = true;
+  document.addEventListener('visibilitychange', () => { running = !document.hidden; if (running) tick(); });
+  new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible && running) tick(); }, { threshold: 0.01 }).observe(stage);
+
+  let raf = null, clock = new THREE.Clock();
+  function tick(){
+    if (raf) cancelAnimationFrame(raf);
+    if (!running || !visible) return;
+    raf = requestAnimationFrame(tick);
+    const dt = clock.getDelta();
+    flows.forEach(f => { f.t = (f.t + dt*0.14) % 1; f.mesh.position.copy(f.curve.getPoint(f.t)); });
+    Object.values(nodeMap).forEach((o) => { o.core.rotation.y += dt*0.3; });
+    if (tween){
+      tween.t = Math.min(1, tween.t + dt*1.6);
+      const e = 1 - Math.pow(1-tween.t, 3);
+      controls.target.lerpVectors(tween.tgtA, tween.tgtB, e);
+      camera.position.lerpVectors(tween.camA, tween.camB, e);
+      if (tween.t >= 1) tween = null;
+    }
+    controls.update();
+    renderer.render(scene, camera);
+    labelRenderer.render(scene, camera);
+  }
+  onResize(); tick();
+}
+</script>
+
+</body>
+</html>

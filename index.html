@@ -3,618 +3,387 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OpenClaw Research Intelligence | Citation-Backed Biomedical Data</title>
-<meta name="description" content="Autonomous multi-agent research engine producing citation-backed pharmacovigilance, drug discovery, and clinical trial intelligence. Every claim maps to a verifiable identifier.">
-<meta property="og:title" content="OpenClaw Research Intelligence">
-<meta property="og:description" content="Citation-backed biomedical intelligence. 200+ verified citations per report. Every PMID, NCT, and DrugBank ID resolves.">
+<title>Trevor Robey — AI Systems &amp; Digital Marketing Portfolio</title>
+<meta name="description" content="Portfolio of Trevor Robey — MBA candidate in Artificial Intelligence Systems Management at Strayer University, founder of Trevor Robey Inc., and builder of AI research and automation systems.">
+<meta property="og:title" content="Trevor Robey — Portfolio">
+<meta property="og:description" content="AI systems management, agentic AI workflows, digital marketing automation, and a decade of entrepreneurship.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://trevorrobeyinc.github.io">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%230a0a0f'/><text x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' fill='%234a90d9' font-family='monospace' font-size='14' font-weight='bold'>OC</text></svg>">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="OpenClaw Research Intelligence">
-<meta name="twitter:description" content="Citation-backed biomedical intelligence. 200+ verified citations per report.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231F3864'/><text x='50%25' y='54%25' dominant-baseline='central' text-anchor='middle' fill='%23ffffff' font-family='Arial,sans-serif' font-size='14' font-weight='bold'>TR</text></svg>">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg: #0a0a0f;
-  --card: #12121a;
-  --card-border: #1e1e2a;
-  --text: #e8e8ec;
-  --text-secondary: #8888a0;
-  --accent: #4a90d9;
-  --accent-hover: #5da0e9;
-  --font-data: "SF Mono", "Fira Code", "Consolas", monospace;
-  --font-body: "Inter", "Helvetica Neue", "Arial", sans-serif;
+  --bg: #ffffff;
+  --bg-alt: #f4f6fa;
+  --card: #ffffff;
+  --border: #dde3ee;
+  --text: #1a2233;
+  --muted: #5a6478;
+  --accent: #1F3864;
+  --accent-soft: #eaf0fa;
+  --accent-text: #1F3864;
+  --badge-bg: #e8f5ee;
+  --badge-text: #1e6b43;
+  --shadow: 0 1px 3px rgba(26, 34, 51, 0.08);
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e1420;
+    --bg-alt: #131b2b;
+    --card: #16203270;
+    --border: #263452;
+    --text: #e7ecf5;
+    --muted: #93a0b8;
+    --accent: #7fa8e0;
+    --accent-soft: #1c2a45;
+    --accent-text: #a8c4ec;
+    --badge-bg: #143024;
+    --badge-text: #6fd0a0;
+    --shadow: none;
+  }
+}
+
+html { scroll-behavior: smooth; }
 
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-body);
-  font-size: 15px;
-  line-height: 1.6;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
 }
 
-a { color: var(--accent); text-decoration: none; }
-a:hover { color: var(--accent-hover); }
+a { color: var(--accent-text); }
+a:hover { opacity: 0.85; }
 
-.container {
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 0 24px;
+.container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+/* ── Nav ── */
+nav {
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0;
+  background: var(--bg);
+  z-index: 10;
 }
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 0;
+}
+.nav-name { font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: 0.3px; }
+.nav-links { display: flex; gap: 22px; }
+.nav-links a { text-decoration: none; font-size: 14px; color: var(--muted); }
+.nav-links a:hover { color: var(--accent-text); opacity: 1; }
 
 /* ── Hero ── */
-.hero {
-  padding: 96px 0 72px;
-  border-bottom: 1px solid var(--card-border);
-}
-
-.hero-label {
-  font-family: var(--font-data);
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 16px;
-}
-
-.hero h1 {
-  font-family: var(--font-body);
-  font-size: 40px;
-  font-weight: 700;
-  line-height: 1.15;
-  margin-bottom: 20px;
-  max-width: 680px;
-}
-
-.hero p {
-  color: var(--text-secondary);
-  font-size: 17px;
-  max-width: 600px;
-  margin-bottom: 32px;
-  line-height: 1.7;
-}
-
-.cta {
+.hero { padding: 72px 0 56px; }
+.badge {
   display: inline-block;
-  font-family: var(--font-data);
-  font-size: 13px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--bg);
-  background: var(--accent);
-  padding: 14px 28px;
-  border: none;
-  cursor: pointer;
-  transition: background 0.15s;
+  background: var(--badge-bg); color: var(--badge-text);
+  font-size: 13px; font-weight: 600;
+  padding: 5px 14px; border-radius: 999px;
+  margin-bottom: 20px;
 }
-
-.cta:hover { background: var(--accent-hover); color: var(--bg); }
-
-.cta-secondary {
-  background: transparent;
-  color: var(--accent);
-  border: 1px solid var(--accent);
-  margin-left: 16px;
+.hero h1 { font-size: 42px; line-height: 1.15; max-width: 720px; margin-bottom: 10px; }
+.hero .role { font-size: 18px; color: var(--accent-text); font-weight: 600; margin-bottom: 18px; }
+.hero p.lede { color: var(--muted); font-size: 17px; max-width: 660px; margin-bottom: 30px; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  display: inline-block; text-decoration: none;
+  font-size: 15px; font-weight: 600;
+  padding: 12px 22px; border-radius: 8px;
+  border: 1.5px solid var(--accent);
 }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { opacity: 0.9; }
+.btn-secondary { color: var(--accent-text); background: transparent; }
 
-.cta-secondary:hover {
-  background: var(--accent);
-  color: var(--bg);
-}
-
-/* ── Section ── */
-section {
-  padding: 72px 0;
-  border-bottom: 1px solid var(--card-border);
-}
-
-.section-label {
-  font-family: var(--font-data);
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-  margin-bottom: 12px;
-}
-
-.section-title {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 40px;
-}
-
-/* ── Products Grid ── */
-.products-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-.product-card {
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  padding: 28px;
-}
-
-.product-card h3 {
-  font-size: 17px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.product-card .stat {
-  font-family: var(--font-data);
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--accent);
-  margin-bottom: 12px;
-}
-
-.product-card .stat-label {
-  font-family: var(--font-data);
-  font-size: 11px;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.product-card p {
-  color: var(--text-secondary);
-  font-size: 14px;
-  margin-top: 12px;
-  line-height: 1.6;
-}
-
-.product-card .sources {
-  font-family: var(--font-data);
-  font-size: 12px;
-  color: var(--text-secondary);
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid var(--card-border);
-}
-
-/* ── How It Works ── */
-.pipeline {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-.pipeline-step {
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  padding: 28px;
-}
-
-.pipeline-step .step-number {
-  font-family: var(--font-data);
-  font-size: 11px;
-  color: var(--accent);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
-
-.pipeline-step h3 {
-  font-size: 17px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.pipeline-step p {
-  color: var(--text-secondary);
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-/* ── Sample Output ── */
-.sample-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 40px;
-}
-
-.sample-stat {
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  padding: 24px;
-  text-align: center;
-}
-
-.sample-stat .value {
-  font-family: var(--font-data);
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--accent);
-}
-
-.sample-stat .label {
-  font-family: var(--font-data);
-  font-size: 11px;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-top: 8px;
-}
-
-.sample-citations {
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  padding: 28px;
-  margin-bottom: 32px;
-}
-
-.sample-citations h3 {
-  font-size: 15px;
-  font-weight: 600;
-  margin-bottom: 16px;
-}
-
-.citation-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: var(--font-data);
-  font-size: 13px;
-}
-
-.citation-table th {
-  text-align: left;
-  color: var(--text-secondary);
-  font-weight: 400;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--card-border);
-}
-
-.citation-table td {
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--card-border);
+/* ── Sections ── */
+section { padding: 56px 0; }
+section.alt { background: var(--bg-alt); }
+h2 {
+  font-size: 26px; margin-bottom: 8px;
   color: var(--text);
 }
+.section-sub { color: var(--muted); margin-bottom: 32px; max-width: 640px; }
 
-.citation-table tr:last-child td {
-  border-bottom: none;
+/* ── Projects (genre-organized) ── */
+.genre { margin-bottom: 32px; }
+.genre:last-child { margin-bottom: 0; }
+.genre-label {
+  font-size: 13px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--accent-text);
+  margin-bottom: 10px;
 }
-
-.sample-note {
-  color: var(--text-secondary);
-  font-size: 13px;
-  font-style: italic;
-  margin-bottom: 32px;
-}
-
-/* ── Pricing ── */
-.pricing-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-.pricing-card {
+.card {
   background: var(--card);
-  border: 1px solid var(--card-border);
-  padding: 36px 28px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  display: flex; flex-direction: column;
 }
-
-.pricing-card.featured {
-  border-color: var(--accent);
+.card h3 { font-size: 19px; margin-bottom: 4px; }
+.card .org { font-size: 13px; font-weight: 600; color: var(--accent-text); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
+.card p { color: var(--muted); font-size: 15px; margin-bottom: 16px; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+.tag {
+  font-size: 12.5px; font-weight: 600;
+  background: var(--accent-soft); color: var(--accent-text);
+  padding: 3px 10px; border-radius: 999px;
 }
+.card-links { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 16px; }
+.card-links a { font-size: 14px; font-weight: 600; }
 
-.pricing-card h3 {
-  font-size: 17px;
-  font-weight: 600;
-  margin-bottom: 8px;
+/* ── Experience ── */
+.xp { border-left: 2px solid var(--border); margin-left: 8px; padding-left: 28px; }
+.xp-item { position: relative; padding-bottom: 32px; }
+.xp-item:last-child { padding-bottom: 0; }
+.xp-item::before {
+  content: ""; position: absolute; left: -35px; top: 6px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--bg);
 }
+.xp-when { font-size: 13.5px; font-weight: 600; color: var(--accent-text); text-transform: uppercase; letter-spacing: 0.8px; }
+.xp-item h3 { font-size: 18px; margin: 2px 0; }
+.xp-org { font-size: 15px; color: var(--muted); font-style: italic; margin-bottom: 8px; }
+.xp-item ul { margin: 8px 0 0 18px; color: var(--muted); font-size: 15px; }
+.xp-item li { margin-bottom: 5px; }
 
-.pricing-card .price {
-  font-family: var(--font-data);
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--accent);
-  margin-bottom: 4px;
+/* ── Education ── */
+.edu-list { display: grid; gap: 14px; }
+.edu {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 16px 20px; box-shadow: var(--shadow);
+  display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap;
 }
+.edu strong { font-size: 16px; }
+.edu .school { color: var(--muted); font-size: 14.5px; }
+.edu .status { font-size: 13px; font-weight: 700; color: var(--badge-text); background: var(--badge-bg); padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
 
-.pricing-card .price-unit {
-  font-family: var(--font-data);
-  font-size: 12px;
-  color: var(--text-secondary);
-  margin-bottom: 24px;
-}
+/* ── Contact / footer ── */
+footer { border-top: 1px solid var(--border); padding: 48px 0 56px; text-align: center; }
+footer h2 { margin-bottom: 12px; }
+footer p { color: var(--muted); max-width: 520px; margin: 0 auto 24px; }
+.foot-note { font-size: 13px; color: var(--muted); margin-top: 36px; }
 
-.pricing-card ul {
-  list-style: none;
-  margin-bottom: 28px;
-}
-
-.pricing-card li {
-  color: var(--text-secondary);
-  font-size: 14px;
-  padding: 6px 0;
-  padding-left: 20px;
-  position: relative;
-}
-
-.pricing-card li::before {
-  content: "\2013";
-  position: absolute;
-  left: 0;
-  color: var(--accent);
-}
-
-/* ── Contact ── */
-.contact {
-  padding: 72px 0 48px;
-  border-bottom: none;
-}
-
-.contact-info {
-  margin-bottom: 32px;
-}
-
-.contact-info a {
-  font-family: var(--font-data);
-  font-size: 15px;
-  display: block;
-  margin-bottom: 8px;
-}
-
-.legal {
-  color: var(--text-secondary);
-  font-size: 12px;
-  line-height: 1.6;
-  max-width: 680px;
-}
-
-.legal p {
-  margin-bottom: 8px;
-}
-
-/* ── Responsive ── */
-@media (max-width: 768px) {
-  .hero { padding: 64px 0 48px; }
-  .hero h1 { font-size: 28px; }
-  .hero p { font-size: 15px; }
-
-  .products-grid,
-  .pipeline,
-  .pricing-grid { grid-template-columns: 1fr; }
-
-  .sample-stats { grid-template-columns: 1fr 1fr; }
-
-  .cta-secondary { margin-left: 0; margin-top: 12px; display: inline-block; }
-
-  section { padding: 48px 0; }
-}
-
-@media (max-width: 960px) {
-  .pricing-grid { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 480px) {
-  .sample-stats { grid-template-columns: 1fr; }
+@media (max-width: 720px) {
+  .hero h1 { font-size: 32px; }
+  .nav-links { display: none; }
 }
 </style>
 </head>
 <body>
 
-<!-- Hero -->
+<nav>
+  <div class="container nav-inner">
+    <a class="nav-name" href="#">Trevor Robey</a>
+    <div class="nav-links">
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+      <a href="assets/Trevor-Robey-Resume.pdf">Résumé</a>
+    </div>
+  </div>
+</nav>
+
 <header class="hero">
   <div class="container">
-    <div class="hero-label">OpenClaw Research Intelligence</div>
-    <h1>Citation-backed biomedical intelligence for enterprise decision-making</h1>
-    <p>Autonomous multi-agent research engine that synthesizes pharmacovigilance signals, drug discovery data, and clinical trial landscapes from authoritative databases. Every claim maps to a verifiable identifier. No hallucinated references.</p>
-    <a href="mailto:trevor@trevorrobey.com?subject=Request%3A%20Sample%20Deliverable&body=I%27d%20like%20to%20review%20a%20sample%20deliverable%20from%20OpenClaw%20Research%20Intelligence." class="cta">Request Sample Deliverable</a>
-    <a href="#products" class="cta cta-secondary">View Products</a>
+    <div class="badge">Open to micro-internship projects</div>
+    <h1>I build and run AI systems that do real business work.</h1>
+    <div class="role">MBA Candidate, Artificial Intelligence Systems Management · Founder, Trevor Robey Inc.</div>
+    <p class="lede">
+      Nearly a decade of entrepreneurial experience across e-commerce, digital marketing, and
+      AI-driven automation — now formalized through an MBA in Artificial Intelligence Systems
+      Management at Strayer University. I don't just study AI systems; I design, deploy, and
+      operate them daily.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#projects">View Projects</a>
+      <a class="btn btn-secondary" href="assets/Trevor-Robey-Resume.pdf">Download Résumé (PDF)</a>
+      <a class="btn btn-secondary" href="mailto:trevoralexanderrobey@gmail.com">Email Me</a>
+    </div>
   </div>
 </header>
 
-<!-- Products -->
-<section id="products">
+<section id="projects" class="alt">
   <div class="container">
-    <div class="section-label">Intelligence Products</div>
-    <h2 class="section-title">Research-grade data packs</h2>
-    <div class="products-grid">
-      <div class="product-card">
-        <h3>Pharmacovigilance Signal Synthesis</h3>
-        <div class="stat">135+</div>
-        <div class="stat-label">Verified citations per report</div>
-        <p>Adverse event signal detection, FAERS disproportionality analysis, drug interaction profiling, and clinical action recommendations across compound cohorts.</p>
-        <div class="sources">OpenFDA FAERS, DailyMed, RxNorm, PubMed, DrugBank</div>
-      </div>
-      <div class="product-card">
-        <h3>Drug Discovery Intelligence</h3>
-        <div class="stat">200+</div>
-        <div class="stat-label">Verified citations per report</div>
-        <p>Compound profiling with ADMET properties, target-compound mapping, molecular interaction networks, and competitive landscape analysis.</p>
-        <div class="sources">PubChem, ChEMBL, DrugBank, UniProt, OpenTargets</div>
-      </div>
-      <div class="product-card">
-        <h3>Clinical Trial Landscape</h3>
-        <div class="stat">180+</div>
-        <div class="stat-label">Verified citations per report</div>
-        <p>Global trial mapping, endpoint analysis, enrollment trends, competitor pipeline tracking, and regulatory milestone timelines.</p>
-        <div class="sources">ClinicalTrials.gov, PubMed, WHO ICTRP, EuropePMC</div>
-      </div>
-      <div class="product-card">
-        <h3>Target Validation Dossier</h3>
-        <div class="stat">289+</div>
-        <div class="stat-label">Verified citations per report</div>
-        <p>Multi-omics target-disease association scoring, genetic evidence mapping, tissue expression profiling, and druggability assessment.</p>
-        <div class="sources">OpenTargets, UniProt, HPA, ChEMBL, DrugBank</div>
+    <h2>Projects</h2>
+    <p class="section-sub">Real systems I've built and operate, organized by discipline — each one is something I can demo, explain, and defend in depth.</p>
+
+    <div class="genre">
+      <div class="genre-label">AI Research &amp; Agent Systems</div>
+      <div class="card">
+        <h3>Trevor Robey Intelligence Network Citations LLC</h3>
+        <div class="org">Trevor Robey, INC. · Founder</div>
+        <p>
+          An autonomous multi-agent research engine that produces citation-backed biomedical
+          intelligence — pharmacovigilance, drug discovery, and clinical trial reports in which
+          every claim is grounded in a verifiable public identifier (PMID, NCT, ChEMBL, DOI).
+          Powered by the OpenClaw agent framework, with a citation-integrity layer enforcing a
+          zero-fabrication standard: if a claim can't be traced to a source, it doesn't ship.
+        </p>
+        <div class="card-links">
+          <a href="https://trevorobeyinc.com/" target="_blank" rel="noopener">Product site →</a>
+          <a href="products/">Inside the Engine →</a>
+          <a href="https://github.com/trevoralexanderrobey/OpenClaw-Research-Agents" target="_blank" rel="noopener">Source on GitHub →</a>
+        </div>
+        <div class="tags">
+          <span class="tag">Claude Opus agents</span><span class="tag">ToolUniverse</span>
+          <span class="tag">Citation integrity</span><span class="tag">AWS Data Exchange</span>
+        </div>
       </div>
     </div>
+
+    <div class="genre">
+      <div class="genre-label">Growth Marketing &amp; SEO</div>
+      <div class="card">
+        <h3>Multi-Channel Campaign &amp; SEO Practice</h3>
+        <div class="org">Freelance · 2020 – Present</div>
+        <p>
+          Five years of hands-on campaign work for small businesses: email, social, and SEO
+          campaigns that grow brand exposure and engagement; paid advertising across Facebook,
+          Instagram, and X; and search optimization that lifts rankings and organic traffic —
+          all steered by data-driven performance reporting.
+        </p>
+        <div class="tags">
+          <span class="tag">SEO</span><span class="tag">Paid social</span>
+          <span class="tag">Email marketing</span><span class="tag">Performance reporting</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="genre">
+      <div class="genre-label">E-Commerce Operations</div>
+      <div class="card">
+        <h3>Shopify Storefront &amp; Amazon Marketplace Business</h3>
+        <div class="org">Self-Employed · 2016 – 2020</div>
+        <p>
+          An independent e-commerce venture run end to end: product sourcing, storefront design,
+          listing optimization, pricing, fulfillment, and customer service — sold concurrently on
+          Amazon Marketplace with inventory and seller-performance management, using sales and
+          traffic analytics to guide product selection and marketing spend.
+        </p>
+        <div class="tags">
+          <span class="tag">Shopify</span><span class="tag">Amazon Marketplace</span>
+          <span class="tag">Inventory management</span><span class="tag">Sales analytics</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="genre">
+      <div class="genre-label">Agentic AI &amp; Process Automation</div>
+      <div class="card">
+        <h3>Agentic AI Workflows</h3>
+        <div class="org">Business Operations</div>
+        <p>
+          AI agents and Model Context Protocol (MCP) integrations woven into daily business
+          operations — automated research, email triage, and browser automation. The craft of
+          turning large language models into dependable, governed business systems.
+        </p>
+        <div class="tags">
+          <span class="tag">MCP</span><span class="tag">AI agents</span><span class="tag">Process automation</span>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
-<!-- How It Works -->
-<section id="pipeline">
+<section id="experience">
   <div class="container">
-    <div class="section-label">Research Pipeline</div>
-    <h2 class="section-title">How it works</h2>
-    <div class="pipeline">
-      <div class="pipeline-step">
-        <div class="step-number">01 &mdash; Scout</div>
-        <h3>Systematic Database Scan</h3>
-        <p>Autonomous scan of FDA registries, peer-reviewed literature, and pharmacological databases. Cross-reference normalization across identifier systems (PMID, NCT, DrugBank, PubChem CID, UniProt).</p>
-      </div>
-      <div class="pipeline-step">
-        <div class="step-number">02 &mdash; Analyst</div>
-        <h3>Quantitative Signal Analysis</h3>
-        <p>Disproportionality metrics (ROR, PRR), drug interaction matrices, pharmacokinetic and pharmacodynamic profiling with molecular-level specificity.</p>
-      </div>
-      <div class="pipeline-step">
-        <div class="step-number">03 &mdash; Synthesizer</div>
-        <h3>Cross-Validated Synthesis</h3>
-        <p>Signal hierarchy integrating scout and analyst outputs. Contradiction resolution, confidence tier assignment, and actionable clinical or strategic recommendations.</p>
-      </div>
-      <div class="pipeline-step">
-        <div class="step-number">04 &mdash; Quality Audit</div>
-        <h3>Citation Verification</h3>
-        <p>Automated enforcement of citation density thresholds. Cross-reference validation, append-only evidence ledger with SHA-256 chain-hashed integrity, provenance tracking.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    <h2>Experience</h2>
+    <p class="section-sub">More than a decade of building businesses — each one taught the next.</p>
+    <div class="xp">
 
-<!-- Sample Output -->
-<section id="sample">
-  <div class="container">
-    <div class="section-label">Verified Output</div>
-    <h2 class="section-title">Sample: Pharmacovigilance Signal Synthesis</h2>
-    <div class="sample-stats">
-      <div class="sample-stat">
-        <div class="value">41</div>
-        <div class="label">Verified Citations</div>
-      </div>
-      <div class="sample-stat">
-        <div class="value">7</div>
-        <div class="label">Identifier Types</div>
-      </div>
-      <div class="sample-stat">
-        <div class="value">48</div>
-        <div class="label">Pages</div>
-      </div>
-      <div class="sample-stat">
-        <div class="value">3</div>
-        <div class="label">Agent Sections</div>
-      </div>
-    </div>
-    <div class="sample-citations">
-      <h3>Sample Citation Index</h3>
-      <table class="citation-table">
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>Identifier</th>
-            <th>Context</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>PMID</td>
-            <td>30232222</td>
-            <td>ICI myocarditis systematic review, JACC 2018</td>
-          </tr>
-          <tr>
-            <td>NCT</td>
-            <td>NCT00302159</td>
-            <td>Valproic acid + temozolomide in GBM</td>
-          </tr>
-          <tr>
-            <td>DrugBank</td>
-            <td>DB09035</td>
-            <td>Nivolumab (Opdivo) pharmacology</td>
-          </tr>
-          <tr>
-            <td>DOI</td>
-            <td>10.1056/NEJMoa1716078</td>
-            <td>NEJM: ICI cardiac adverse events</td>
-          </tr>
-          <tr>
-            <td>UniProt</td>
-            <td>P11712</td>
-            <td>CYP2C9 enzyme &mdash; VPA/TMZ interaction</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="sample-note">Every identifier above resolves in its source database. Check PMID:30232222 at pubmed.ncbi.nlm.nih.gov &mdash; it resolves to Wang et al., JACC 2018.</p>
-    <a href="mailto:trevor@trevorrobey.com?subject=Request%3A%20Full%20Sample%20Deliverable&body=I%27d%20like%20to%20review%20the%20full%2048-page%20pharmacovigilance%20sample%20deliverable." class="cta">Request Full Sample</a>
-  </div>
-</section>
-
-<!-- Pricing -->
-<section id="pricing">
-  <div class="container">
-    <div class="section-label">Engagement</div>
-    <h2 class="section-title">Pricing</h2>
-    <div class="pricing-grid">
-      <div class="pricing-card">
-        <h3>Research Intelligence Pack</h3>
-        <div class="price">$2,500 &ndash; $4,950</div>
-        <div class="price-unit">per report</div>
+      <div class="xp-item">
+        <div class="xp-when">March 2025 – Present</div>
+        <h3>Founder &amp; CEO</h3>
+        <div class="xp-org">Trevor Robey Inc. — Fair Oaks, CA</div>
         <ul>
-          <li>Single-topic research report (48+ pages)</li>
-          <li>200+ verified citations across all identifier types</li>
-          <li>Citation index CSV with provenance</li>
-          <li>Methodology statement</li>
-          <li>72-hour delivery via secure email</li>
+          <li>Founded an AI-focused consultancy delivering affordable, AI-powered marketing to small businesses.</li>
+          <li>Design AI-driven strategies and automation workflows in GoHighLevel, improving campaign efficiency.</li>
+          <li>Advise clients on adopting AI tools for personalized customer outreach and workflow automation.</li>
         </ul>
-        <a href="mailto:trevor@trevorrobey.com?subject=Research%20Intelligence%20Pack%20Request&body=I%27d%20like%20to%20request%20a%20Research%20Intelligence%20Pack.%20Topic%3A%20" class="cta">Request a Pack</a>
       </div>
-      <div class="pricing-card">
-        <h3>Custom Intelligence Mission</h3>
-        <div class="price">$15,000 &ndash; $35,000</div>
-        <div class="price-unit">per project</div>
+
+      <div class="xp-item">
+        <div class="xp-when">October 2020 – Present</div>
+        <h3>Freelance Digital Marketer</h3>
+        <div class="xp-org">Independent Consultant — Fair Oaks, CA</div>
         <ul>
-          <li>Choose any pharmacovigilance, drug discovery, or competitive intelligence topic</li>
-          <li>Full multi-section research report (40&ndash;80+ pages)</li>
-          <li>Citation index CSV with full provenance chain</li>
-          <li>Methodology statement and schema definition</li>
-          <li>Evidence appendix with chain-hashed integrity</li>
-          <li>Delivery via Snowflake, AWS Data Exchange, or BigQuery</li>
+          <li>Develop multi-channel campaigns (email, social, SEO) that grow brand exposure and engagement.</li>
+          <li>Manage social media strategy and paid advertising across Facebook, Instagram, and X.</li>
+          <li>Deliver data-driven performance reports that improve client acquisition and retention.</li>
         </ul>
-        <a href="mailto:trevor@trevorrobey.com?subject=Custom%20Intelligence%20Mission%20Inquiry&body=I%27m%20interested%20in%20a%20custom%20intelligence%20mission.%20Topic%3A%20" class="cta">Initiate Mission</a>
       </div>
-      <div class="pricing-card featured">
-        <h3>Enterprise Intelligence Subscription</h3>
-        <div class="price">$60,000 &ndash; $120,000+</div>
-        <div class="price-unit">annual recurring</div>
+
+      <div class="xp-item">
+        <div class="xp-when">2016 – 2020</div>
+        <h3>E-Commerce Entrepreneur — Shopify Store Owner &amp; Amazon Seller</h3>
+        <div class="xp-org">Self-Employed — Fair Oaks, CA</div>
         <ul>
-          <li>Scheduled pharmacovigilance scans on compounds of interest</li>
-          <li>API access for programmatic workflow submission</li>
-          <li>Native integration with your data infrastructure</li>
-          <li>Usage metering and SLA</li>
-          <li>Custom schema design for your ingestion pipeline</li>
-          <li>Dedicated support</li>
+          <li>Built and operated an independent Shopify storefront end to end: sourcing, listings, pricing, fulfillment, and customer service.</li>
+          <li>Sold on Amazon Marketplace, managing inventory, pricing, and seller performance metrics.</li>
+          <li>Used sales and traffic analytics to guide product selection and marketing spend.</li>
         </ul>
-        <a href="mailto:trevor@trevorrobey.com?subject=Enterprise%20Subscription%20Inquiry&body=I%27d%20like%20to%20discuss%20an%20enterprise%20intelligence%20subscription." class="cta">Contact Sales</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="education" class="alt">
+  <div class="container">
+    <h2>Education</h2>
+    <p class="section-sub">All business degrees from Strayer University, capped with a specialized AI systems MBA.</p>
+    <div class="edu-list">
+      <div class="edu">
+        <div>
+          <strong>MBA, Artificial Intelligence Systems Management</strong>
+          <div class="school">Strayer University</div>
+        </div>
+        <span class="status">In Progress</span>
+      </div>
+      <div class="edu">
+        <div>
+          <strong>Bachelor of Business Administration, Concentration in Entrepreneurship</strong>
+          <div class="school">Strayer University</div>
+        </div>
+      </div>
+      <div class="edu">
+        <div>
+          <strong>Associate of Arts, Information Technology</strong>
+          <div class="school">Strayer University</div>
+        </div>
+      </div>
+      <div class="edu">
+        <div>
+          <strong>4.0 GPA &amp; Perfect Attendance Award</strong>
+          <div class="school">National Career Education</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Contact -->
-<footer class="contact">
+<footer id="contact">
   <div class="container">
-    <div class="section-label">Contact</div>
-    <h2 class="section-title">Start a conversation</h2>
-    <div class="contact-info">
-      <a href="mailto:trevor@trevorrobey.com">trevor@trevorrobey.com</a>
-      <a href="https://trevorrobeyinc.github.io">trevorrobeyinc.github.io</a>
+    <h2>Let's work together</h2>
+    <p>
+      I'm currently seeking micro-internship projects where I can apply AI systems management,
+      marketing technology, and data-driven problem solving to real business challenges.
+    </p>
+    <div class="cta-row" style="justify-content: center;">
+      <a class="btn btn-primary" href="mailto:trevoralexanderrobey@gmail.com">trevoralexanderrobey@gmail.com</a>
+      <a class="btn btn-secondary" href="https://github.com/trevoralexanderrobey">GitHub</a>
+      <a class="btn btn-secondary" href="assets/Trevor-Robey-Resume.pdf">Résumé (PDF)</a>
     </div>
-    <div class="legal">
-      <p>Reports produced using AI-assisted research synthesis with human editorial oversight. All citations independently verifiable in their respective source databases.</p>
-      <p>Trevor Robey Inc. | OpenClaw Research Intelligence</p>
-    </div>
+    <div class="foot-note">© 2026 Trevor Robey · Fair Oaks, CA</div>
   </div>
 </footer>
 
