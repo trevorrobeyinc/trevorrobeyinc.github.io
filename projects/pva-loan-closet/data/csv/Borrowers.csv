@@ -1,0 +1,15 @@
+BorrowerID,FirstName,LastName,Phone,Email,Street,City,State,Zip,WaiverOnFile,WaiverDate,LGLConstituentID,LGLSyncStatus,Notes
+BRW-0001,Alice,Hartman,(585) 555-0201,ahartman@example.com,12 Rand Pl,Pittsford,NY,14534,Y,2026-01-16,301310,Synced,Post-surgery knee recovery
+BRW-0002,Devon,Marsh,(585) 555-0214,dmarsh@example.com,230 Thornell Rd,Pittsford,NY,14534,Y,2026-01-23,301311,Synced,
+BRW-0003,Carmen,Reyes,(585) 555-0227,creyes@example.com,55 Knickerbocker Rd,Pittsford,NY,14534,Y,2026-02-04,301315,Synced,
+BRW-0004,Frank,Osterhout,(585) 555-0233,fosterhout@example.com,801 Moseley Rd,Fairport,NY,14450,Y,2026-02-15,,Not Synced,Daughter is primary contact
+BRW-0005,Grace,Liu,(585) 555-0246,gliu@example.com,14 Tobey Rd,Pittsford,NY,14534,Y,2026-02-28,301322,Synced,
+BRW-0006,Hank,Petrocelli,(585) 555-0252,hpetrocelli@example.com,96 Monroe Ave,Pittsford,NY,14534,Y,2026-03-10,,Not Synced,
+BRW-0007,Imani,Wallace,(585) 555-0269,iwallace@example.com,310 Clover St,Brighton,NY,14618,Y,2026-03-22,301330,Synced,
+BRW-0008,Jack,Sorenson,(585) 555-0275,jsorenson@example.com,72 W Bloomfield Rd,Honeoye Falls,NY,14472,Y,2026-04-07,,Not Synced,Hip replacement recovery
+BRW-0009,Karen,Abramowitz,(585) 555-0288,kabramowitz@example.com,41 Sunset Blvd,Pittsford,NY,14534,Y,2026-04-19,301341,Synced,
+BRW-0010,Luis,Fonseca,(585) 555-0294,lfonseca@example.com,188 Marsh Rd,Pittsford,NY,14534,Y,2026-05-03,,Not Synced,
+BRW-0011,Maeve,O'Rourke,(585) 555-0307,morourke@example.com,23 Church St,Pittsford,NY,14534,Y,2026-05-17,301352,Synced,Broken ankle — knee scooter
+BRW-0012,Nathan,Choi,(585) 555-0313,nchoi@example.com,405 Jefferson Rd,Pittsford,NY,14534,Y,2026-06-02,,Not Synced,
+BRW-0013,Opal,Jennings,(585) 555-0326,ojennings@example.com,9 Locust Hill Dr,Pittsford,NY,14534,Y,2026-06-16,,Not Synced,Referred by discharge planner
+BRW-0014,Peter,Vanderkamp,(585) 555-0339,pvanderkamp@example.com,150 Mendon Center Rd,Pittsford,NY,14534,Y,2026-07-03,,Not Synced,

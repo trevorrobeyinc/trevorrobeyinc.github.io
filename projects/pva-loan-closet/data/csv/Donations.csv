@@ -1,0 +1,15 @@
+DonationID,DonorID,DonationDate,ItemCount,EstimatedValue,ReceiptSent,ReceiptSentAt,LGLGiftID,LGLSyncStatus,IntakeStaff,Notes
+DON-0001,DNR-001,2026-01-13,2,190,Y,2026-01-13 15:40,88112,Synced,K. Ferraro,"Wheelchair + cane, excellent shape"
+DON-0002,DNR-002,2026-01-28,1,85,Y,2026-01-28 12:05,88141,Synced,J. Osei,"Rollator, near new"
+DON-0003,DNR-003,2026-02-10,3,145,Y,2026-02-10 16:22,88176,Synced,K. Ferraro,"Walker, crutches, shower chair"
+DON-0004,DNR-004,2026-02-22,1,60,N,,,Not Synced,M. Quinn,Donor declined receipt; log for records only
+DON-0005,DNR-005,2026-03-06,5,720,Y,2026-03-06 17:10,88214,Synced,K. Ferraro,"Estate donation: 2 wheelchairs, transport chair, 2 walkers"
+DON-0006,DNR-001,2026-03-19,1,40,Y,2026-03-19 10:15,88232,Synced,J. Osei,Quad cane
+DON-0007,DNR-006,2026-04-03,2,230,Y,2026-04-03 14:48,,Pending,M. Quinn,Knee scooter + toilet frame; gift sync queued
+DON-0008,DNR-007,2026-04-21,1,95,Y,2026-04-21 11:30,88301,Synced,K. Ferraro,Transport chair
+DON-0009,DNR-008,2026-05-09,2,150,Y,2026-05-09 13:55,,Error,J. Osei,Blocked on constituent match (DNR-008)
+DON-0010,DNR-009,2026-05-27,1,120,Y,2026-05-27 09:20,88356,Synced,M. Quinn,Rollator w/ seat
+DON-0011,DNR-003,2026-06-11,1,35,Y,2026-06-11 15:05,88389,Synced,K. Ferraro,Pair of crutches
+DON-0012,DNR-005,2026-06-25,2,180,Y,2026-06-25 16:40,88412,Synced,J. Osei,Commode + transfer bench
+DON-0013,DNR-007,2026-07-07,1,75,Y,2026-07-07 10:25,88437,Synced,M. Quinn,"Shower chair, like new"
+DON-0014,DNR-010,2026-07-13,2,160,N,,,Not Synced,K. Ferraro,Walker + raised toilet seat; receipt queued

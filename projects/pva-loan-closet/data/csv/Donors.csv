@@ -1,0 +1,11 @@
+DonorID,FirstName,LastName,Email,Phone,Street,City,State,Zip,LGLConstituentID,LGLSyncStatus,LGLLastSyncAt,Notes
+DNR-001,Margaret,Kowalski,mkowalski62@example.com,(585) 555-0141,18 Stonecrest Dr,Pittsford,NY,14534,301245,Synced,2026-06-29 14:22,Repeat donor; prefers email receipts
+DNR-002,Raymond,Delgado,ray.delgado@example.com,(585) 555-0176,44 Mill Rd,Mendon,NY,14506,301252,Synced,2026-05-20 09:10,
+DNR-003,Priya,Natarajan,priya.n@example.com,(585) 555-0113,902 Ayrault Rd,Fairport,NY,14450,301260,Synced,2026-06-03 16:45,Donated after father's recovery
+DNR-004,Thomas,Brennan,tbrennan@example.com,(585) 555-0199,67 Sutherland St,Pittsford,NY,14534,,Not Synced,,"Walk-in donor, no email receipt requested"
+DNR-005,Eleanor,Fitch,efitch@example.com,(585) 555-0125,310 East Ave,Rochester,NY,14618,301277,Synced,2026-07-01 11:05,Estate donation (multiple items)
+DNR-006,Sam,Okafor,sokafor@example.com,(585) 555-0158,12 Ketchum Rd,Honeoye Falls,NY,14472,,Pending,,Queued for next sync run
+DNR-007,Linda,Tran,linda.tran@example.com,(585) 555-0132,5 Coventry Ct,Penfield,NY,14526,301289,Synced,2026-07-07 10:31,
+DNR-008,George,Aldrich,galdrich@example.com,(585) 555-0164,230 French Rd,Brighton,NY,14618,,Error,2026-07-07 10:32,Sync error: duplicate match review needed (see SYN-0113)
+DNR-009,Beatrice,Munoz,bmunoz@example.com,(585) 555-0187,81 Golf Ave,Pittsford,NY,14534,301301,Synced,2026-07-11 15:02,Also volunteers on Tuesdays
+DNR-010,Harold,Weiss,hweiss@example.com,(585) 555-0119,19 Rand Pl,Pittsford,NY,14534,,Not Synced,,New donor 7/13; intake completed

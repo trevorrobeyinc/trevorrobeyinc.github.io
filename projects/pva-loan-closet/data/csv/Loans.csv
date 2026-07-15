@@ -1,0 +1,20 @@
+LoanID,EquipmentID,BorrowerID,CheckoutDate,DueDate,ReturnedDate,Status,ConditionOut,ConditionIn,CheckedOutBy,CheckedInBy,LastReminderSentAt,OverdueNoticeCount,Notes
+LN-00001,EQ-0001,BRW-0001,2026-01-17,2026-04-17,2026-03-29,Returned,Good,Good,K. Ferraro,J. Osei,,0,
+LN-00002,EQ-0014,BRW-0002,2026-01-24,2026-04-24,2026-04-11,Returned,Good,Good,J. Osei,J. Osei,2026-04-17,0,
+LN-00003,EQ-0022,BRW-0003,2026-02-06,2026-05-07,2026-04-03,Returned,Good,Good,K. Ferraro,M. Quinn,,0,
+LN-00004,EQ-0010,BRW-0004,2026-02-17,2026-05-18,2026-05-31,Returned,Good,Fair,M. Quinn,K. Ferraro,2026-05-11,2,Returned late; brake pads worn
+LN-00005,EQ-0027,BRW-0005,2026-03-03,2026-06-01,2026-05-21,Returned,Good,Good,J. Osei,J. Osei,2026-05-25,0,
+LN-00006,EQ-0008,BRW-0006,2026-03-13,2026-06-11,2026-06-06,Returned,Good,Good,K. Ferraro,M. Quinn,2026-06-04,0,
+LN-00007,EQ-0030,BRW-0007,2026-03-25,2026-06-23,2026-06-19,Returned,Good,Good,M. Quinn,K. Ferraro,2026-06-16,0,
+LN-00008,EQ-0005,BRW-0008,2026-04-09,2026-07-08,2026-07-02,Returned,Good,Good,J. Osei,J. Osei,2026-07-01,0,
+LN-00009,EQ-0016,BRW-0009,2026-04-21,2026-07-20,2026-06-28,Returned,Good,Good,K. Ferraro,M. Quinn,,0,
+LN-00010,EQ-0024,BRW-0010,2026-05-05,2026-08-03,2026-06-21,Returned,Excellent,Good,M. Quinn,J. Osei,,0,
+LN-00011,EQ-0012,BRW-0013,2026-06-17,2026-09-15,2026-07-12,Returned,Fair,Fair,J. Osei,K. Ferraro,,0,Early return; sent to cleaning (EQ-0012)
+LN-00012,EQ-0003,BRW-0012,2026-06-03,2026-07-01,2026-06-30,Returned,Excellent,Excellent,K. Ferraro,J. Osei,2026-06-24,0,Short-term loan (28 days) by request
+LN-00013,EQ-0002,BRW-0004,2026-03-31,2026-06-29,,Overdue,Good,,M. Quinn,,2026-07-06,2,No response to 2 notices; escalated TKT-0007
+LN-00014,EQ-0009,BRW-0006,2026-04-05,2026-07-04,,Overdue,Excellent,,K. Ferraro,,2026-07-11,1,Borrower requested extension call-back
+LN-00015,EQ-0025,BRW-0002,2026-04-12,2026-07-11,,Overdue,Good,,J. Osei,,2026-07-12,1,
+LN-00016,EQ-0021,BRW-0011,2026-05-19,2026-08-17,,Active,Excellent,,K. Ferraro,,,0,Knee scooter for ankle fracture
+LN-00017,EQ-0015,BRW-0014,2026-07-04,2026-10-02,,Active,Excellent,,M. Quinn,,,0,
+LN-00018,EQ-0036,BRW-0009,2026-04-22,2026-07-21,,Active,Excellent,,J. Osei,,,0,Due-soon demo fixture: reminder fires on the next daily scan (7-day window)
+LN-00019,EQ-0006,BRW-0007,2026-06-21,2026-09-19,,Active,Excellent,,K. Ferraro,,,0,Ultralight chair for travel period

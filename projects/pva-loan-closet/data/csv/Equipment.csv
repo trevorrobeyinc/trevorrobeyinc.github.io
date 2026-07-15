@@ -1,0 +1,37 @@
+EquipmentID,AssetTag,Category,Make,Model,SerialNumber,Size,Condition,Status,StorageLocation,AcquisitionType,DonationID,AcquiredDate,EstimatedValue,Notes
+EQ-0001,PVA-LC-0001,Wheelchair,Drive Medical,Blue Streak,BS18-77241,18 in seat,Good,Available,Aisle A / Shelf 1,Donated,DON-0001,2026-01-13,95,
+EQ-0002,PVA-LC-0002,Wheelchair,Invacare,Tracer EX2,TEX2-50318,20 in seat,Good,On Loan,Aisle A / Shelf 1,Donated,DON-0005,2026-03-06,180,
+EQ-0003,PVA-LC-0003,Wheelchair,Medline,Excel K1,K1-88402,18 in seat,Excellent,Available,Aisle A / Shelf 2,Donated,DON-0005,2026-03-06,165,
+EQ-0004,PVA-LC-0004,Wheelchair,Drive Medical,Cruiser III,CR3-11957,16 in seat (narrow),Fair,In Repair,Repair Bench,Purchased,,2024-09-16,90,Left brake sticking — TKT-0002
+EQ-0005,PVA-LC-0005,Wheelchair,Medline,K3 Basic,K3-90211,18 in seat,Good,Available,Aisle A / Shelf 2,Purchased,,2025-02-11,140,
+EQ-0006,PVA-LC-0006,Wheelchair,Karman,LT-980,LT980-4471,18 in seat (ultralight),Excellent,On Loan,Aisle A / Shelf 1,Purchased,,2025-06-21,210,
+EQ-0007,PVA-LC-0007,Transport Chair,Medline,Freedom 2,FR2-33810,19 in seat,Good,Available,Aisle A / Shelf 3,Donated,DON-0008,2026-04-21,95,
+EQ-0008,PVA-LC-0008,Transport Chair,Drive Medical,Fly Lite,FL-72019,19 in seat,Good,Available,Aisle A / Shelf 3,Donated,DON-0005,2026-03-06,110,
+EQ-0009,PVA-LC-0009,Rollator,Drive Medical,Nitro Euro Style,NIT-60112,Standard,Excellent,On Loan,Aisle B / Shelf 1,Donated,DON-0002,2026-01-28,85,
+EQ-0010,PVA-LC-0010,Rollator,NOVA,GetGO Classic,GG-48273,Standard,Good,Available,Aisle B / Shelf 1,Purchased,,2024-08-20,75,
+EQ-0011,PVA-LC-0011,Rollator,Medline,Empower,EMP-15540,Bariatric,Good,Available,Aisle B / Shelf 2,Donated,DON-0010,2026-05-27,120,
+EQ-0012,PVA-LC-0012,Rollator,Hugo Mobility,Elite,HE-90731,Standard,Fair,In Cleaning,Cleaning Station,Purchased,,2023-12-05,60,Returned 7/12; sanitize + wheel check
+EQ-0013,PVA-LC-0013,Rollator,Drive Medical,Duet,DU-20984,Standard,Good,Available,Aisle B / Shelf 2,Donated,DON-0009,2026-05-09,95,
+EQ-0014,PVA-LC-0014,Walker,Medline,Two-Button Folding,TBF-77103,Adult,Good,Available,Aisle B / Shelf 3,Donated,DON-0003,2026-02-10,30,
+EQ-0015,PVA-LC-0015,Walker,Drive Medical,Deluxe Trigger,DT-41522,Adult,Excellent,On Loan,Aisle B / Shelf 3,Purchased,,2025-03-31,45,
+EQ-0016,PVA-LC-0016,Walker,Guardian,Easy Care,EC-63348,Junior,Good,Available,Aisle B / Shelf 4,Donated,DON-0005,2026-03-06,35,
+EQ-0017,PVA-LC-0017,Walker,Medline,Two-Button w/ Wheels,TBW-88910,Adult,Good,Available,Aisle B / Shelf 3,Donated,DON-0014,2026-07-13,40,New intake 7/13 — tag printed
+EQ-0018,PVA-LC-0018,Walker,Carex,Folding,CF-30217,Adult,Fair,Available,Aisle B / Shelf 4,Donated,DON-0009,2026-05-09,25,
+EQ-0019,PVA-LC-0019,Walker,Drive Medical,Side Style Hemi,SSH-51125,Hemi (one-hand),Good,Available,Aisle B / Shelf 4,Donated,DON-0005,2026-03-06,38,
+EQ-0020,PVA-LC-0020,Knee Scooter,KneeRover,Steerable,KR-77415,Standard,Good,In Repair,Repair Bench,Donated,DON-0007,2026-04-03,130,Brake cable frayed — TKT-0005
+EQ-0021,PVA-LC-0021,Knee Scooter,Drive Medical,DV8,DV8-62230,Standard,Excellent,On Loan,Aisle C / Shelf 1,Purchased,,2025-08-15,145,
+EQ-0022,PVA-LC-0022,Crutches,Medline,Aluminum (pair),AL-90112,"Adult 5'2""-5'10""",Good,Available,Aisle C / Bin 1,Donated,DON-0003,2026-02-10,22,
+EQ-0023,PVA-LC-0023,Crutches,Guardian,Aluminum (pair),AL-90881,"Adult 5'10""-6'6""",Good,Available,Aisle C / Bin 1,Donated,DON-0011,2026-06-11,22,
+EQ-0024,PVA-LC-0024,Crutches,Carex,Push-Button (pair),PB-44107,Youth,Excellent,Available,Aisle C / Bin 2,Purchased,,2025-05-10,28,
+EQ-0025,PVA-LC-0025,Crutches,Medline,Forearm (pair),FA-18220,Adult,Good,On Loan,Aisle C / Bin 2,Purchased,,2024-10-26,35,
+EQ-0026,PVA-LC-0026,Cane,Hugo Mobility,Adjustable Derby,AD-70331,Standard,Excellent,Available,Aisle C / Bin 3,Donated,DON-0001,2026-01-13,18,
+EQ-0027,PVA-LC-0027,Cane,Drive Medical,Folding w/ Seat,FS-25518,Standard,Good,Available,Aisle C / Bin 3,Donated,DON-0004,2026-02-22,30,
+EQ-0028,PVA-LC-0028,Quad Cane,Medline,Small Base,QSB-61240,Standard,Good,Available,Aisle C / Bin 3,Donated,DON-0006,2026-03-19,24,
+EQ-0029,PVA-LC-0029,Quad Cane,NOVA,Large Base,QLB-83726,Standard,Fair,Retired,Storage — Retired Bin,Purchased,,2022-07-01,0,Worn tips + shaft wobble; retired 6/2026
+EQ-0030,PVA-LC-0030,Shower Chair,Medline,w/ Back,SCB-51902,300 lb cap,Good,Available,Aisle D / Shelf 1,Donated,DON-0003,2026-02-10,35,
+EQ-0031,PVA-LC-0031,Shower Chair,Carex,Adjustable,SCA-66319,250 lb cap,Excellent,Available,Aisle D / Shelf 1,Donated,DON-0013,2026-07-07,42,
+EQ-0032,PVA-LC-0032,Shower Chair,Drive Medical,Bariatric,SCX-70228,500 lb cap,Fair,Quarantined,Quarantine Shelf,Purchased,,2023-07-22,55,Hairline seat crack reported — TKT-0004; do not loan
+EQ-0033,PVA-LC-0033,Tub Transfer Bench,Medline,Sliding,TTB-40921,Standard,Good,Available,Aisle D / Shelf 2,Donated,DON-0012,2026-06-25,70,
+EQ-0034,PVA-LC-0034,Bedside Commode,Drive Medical,Folding Steel,BC-33450,350 lb cap,Good,Available,Aisle D / Shelf 3,Donated,DON-0012,2026-06-25,48,
+EQ-0035,PVA-LC-0035,Raised Toilet Seat,Carex,w/ Handles,RTS-28831,5 in riser,Good,Available,Aisle D / Shelf 4,Donated,DON-0014,2026-07-13,32,
+EQ-0036,PVA-LC-0036,Toilet Safety Frame,Medline,Adjustable,TSF-91507,Standard,Excellent,On Loan,Aisle D / Shelf 4,Donated,DON-0007,2026-04-03,30,

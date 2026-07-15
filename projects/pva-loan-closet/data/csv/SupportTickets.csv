@@ -1,0 +1,10 @@
+TicketID,EquipmentID,LoanID,ReportedBy,ReporterType,IssueType,Priority,Status,OpenedAt,AssignedTo,ResolvedAt,ResolutionNotes
+TKT-0001,EQ-0018,,M. Quinn,Staff,Missing Part,Low,Resolved,2026-05-15 09:12,M. Quinn,2026-05-17 13:30,Replaced missing rubber tips from spares bin
+TKT-0002,EQ-0004,,K. Ferraro,Staff,Repair Needed,Medium,In Progress,2026-06-26 10:41,R. Boyd (volunteer),,Left wheel brake sticking; caliper ordered
+TKT-0003,EQ-0012,LN-00011,Opal Jennings,Borrower,Cleaning Required,Low,Resolved,2026-07-12 14:05,J. Osei,2026-07-13 11:00,Full sanitize done; wheel check pending recheck
+TKT-0004,EQ-0032,,J. Osei,Staff,Damage Reported,High,In Progress,2026-07-03 08:55,K. Ferraro,,Hairline crack in seat; quarantined pending replacement decision
+TKT-0005,EQ-0020,,R. Boyd,Volunteer,Repair Needed,Medium,Waiting on Parts,2026-06-30 15:20,R. Boyd (volunteer),,Brake cable frayed; part ETA 7/19
+TKT-0006,,,Harold Weiss,Donor,Donation Question,Low,New,2026-07-13 16:44,,,Asks whether receipt covers both items (DON-0014)
+TKT-0007,EQ-0002,LN-00013,K. Ferraro,Staff,Overdue Follow-up,High,In Progress,2026-07-13 09:30,M. Quinn,,"Two notices sent, no response; attempt phone contact"
+TKT-0008,,,M. Quinn,Staff,App/Data Issue,Low,Closed,2026-06-19 11:25,K. Ferraro,2026-06-19 15:10,Photo upload failed on intake form; retrained on WiFi handoff
+TKT-0009,EQ-0031,,Linda Tran,Donor,Other,Low,New,2026-07-14 08:20,,,Donor asks for confirmation item is in circulation

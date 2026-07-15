@@ -1,0 +1,52 @@
+LookupType,Value,SortOrder,Active
+Category,Wheelchair,1,Y
+Category,Transport Chair,2,Y
+Category,Rollator,3,Y
+Category,Walker,4,Y
+Category,Knee Scooter,5,Y
+Category,Crutches,6,Y
+Category,Cane,7,Y
+Category,Quad Cane,8,Y
+Category,Shower Chair,9,Y
+Category,Tub Transfer Bench,10,Y
+Category,Bedside Commode,11,Y
+Category,Raised Toilet Seat,12,Y
+Category,Toilet Safety Frame,13,Y
+Condition,New,1,Y
+Condition,Excellent,2,Y
+Condition,Good,3,Y
+Condition,Fair,4,Y
+Condition,Needs Repair,5,Y
+EquipmentStatus,Available,1,Y
+EquipmentStatus,On Loan,2,Y
+EquipmentStatus,In Cleaning,3,Y
+EquipmentStatus,In Repair,4,Y
+EquipmentStatus,Quarantined,5,Y
+EquipmentStatus,Retired,6,Y
+LoanStatus,Active,1,Y
+LoanStatus,Overdue,2,Y
+LoanStatus,Returned,3,Y
+LoanStatus,Lost,4,Y
+TicketStatus,New,1,Y
+TicketStatus,In Progress,2,Y
+TicketStatus,Waiting on Parts,3,Y
+TicketStatus,Resolved,4,Y
+TicketStatus,Closed,5,Y
+IssueType,Repair Needed,1,Y
+IssueType,Cleaning Required,2,Y
+IssueType,Missing Part,3,Y
+IssueType,Damage Reported,4,Y
+IssueType,Overdue Follow-up,5,Y
+IssueType,Donation Question,6,Y
+IssueType,App/Data Issue,7,Y
+IssueType,Other,8,Y
+Priority,Low,1,Y
+Priority,Medium,2,Y
+Priority,High,3,Y
+Priority,Urgent,4,Y
+ReporterType,Borrower,1,Y
+ReporterType,Donor,2,Y
+ReporterType,Staff,3,Y
+ReporterType,Volunteer,4,Y
+AcquisitionType,Donated,1,Y
+AcquisitionType,Purchased,2,Y

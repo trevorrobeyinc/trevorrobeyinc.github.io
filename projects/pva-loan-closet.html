@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PVA Loan Closet — Case Study · Trevor Robey</title>
+  <meta name="description" content="Case study: a mobility-equipment loan-closet system on Google AppSheet, Sheets, and Apps Script with a mock CRM integration — diagrams, documents, and the full build guide." />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="assets/portfolio.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__brand" href="../index.html" aria-label="Home">TR</a>
+      <nav class="nav__links" id="nav-links" aria-label="Primary">
+        <a href="../index.html#projects">Projects</a>
+        <a href="../index.html#experience">Experience</a>
+        <a href="../index.html#education">Education</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+      <div class="nav__actions">
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle theme"><span class="theme-toggle__icon" aria-hidden="true"></span></button>
+        <button class="nav__burger" id="nav-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="subpage">
+      <div class="subpage__head">
+        <a class="backlink" href="../index.html#projects">← Back to projects</a>
+        <p class="hero__eyebrow">Case Study · Operations &amp; Software</p>
+        <h1>PVA Mobility Equipment Loan Closet</h1>
+        <p class="subpage__lede">
+          A medical-equipment lending system for a volunteer ambulance service — built on
+          <strong>Google AppSheet</strong>, <strong>Google Sheets</strong>, and
+          <strong>Google Apps Script</strong>, with a mocked Little Green Light CRM integration.
+          Everything below is the actual project: the architecture, the documents, and the full
+          build guide, shown here rather than linked away.
+        </p>
+        <div class="subpage__meta">
+          <a class="btn btn--primary" href="https://github.com/trevorrobeyinc/trevorrobeyinc.github.io/tree/main/projects/pva-loan-closet" target="_blank" rel="noopener">Project source</a>
+          <a class="btn btn--ghost" href="pva-build-guide.html">Read the build guide</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <section class="case-section">
+      <h2><span class="num">01</span>Overview</h2>
+      <p class="case-lede">
+        Staff track inventory, loans, returns, donations, and support tickets in one app;
+        automated reminders chase overdue equipment, and each donation syncs to the donor CRM.
+        The design is deliberately three-layer: <strong>AppSheet</strong> is the interface and
+        event automation, <strong>Google Sheets</strong> is the system of record, and
+        <strong>Apps Script</strong> owns integration, secrets, and scheduled jobs. It's a
+        cross-functional piece — software and operations rather than marketing — included here
+        to show range.
+      </p>
+      <ul class="about__tags" aria-label="Highlights">
+        <li>Match-before-create CRM sync</li>
+        <li>Mock / live integration flag</li>
+        <li>11/11 automated tests</li>
+        <li>Scheduled reminder cadence</li>
+        <li>Relative-dated demo data</li>
+        <li>Fail-closed webhook</li>
+      </ul>
+      <p class="case-lede" style="margin-top:1.4rem">
+        <em>Status:</em> the backend, the Apps Script integration, the test suite, and the build
+        guide are complete; the AppSheet front end assembles from the guide below.
+      </p>
+    </section>
+
+    <!-- DIAGRAMS -->
+    <section class="case-section">
+      <h2><span class="num">02</span>Architecture &amp; diagrams</h2>
+      <figure class="figure">
+        <img src="pva-loan-closet/diagrams/architecture.png" alt="System architecture: AppSheet owns UX and event automation, Google Sheets is the system of record, Apps Script owns integration, secrets, and scheduled jobs." loading="lazy" />
+        <figcaption>Figure 1 — System architecture. AppSheet handles UX and event bots; Sheets is the record; Apps Script owns integration, secrets, and scheduled jobs.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="pva-loan-closet/diagrams/erd.png" alt="Entity-relationship diagram of the Google Sheets backend: tables, key fields, and relationships." loading="lazy" />
+        <figcaption>Figure 2 — Backend data model: tables, key fields, and the relationships wired through AppSheet Ref columns.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="pva-loan-closet/diagrams/workflows.png" alt="The four core workflows — donation intake, loan origination, equipment return, and support tickets — with automated steps shaded." loading="lazy" />
+        <figcaption>Figure 3 — The four core workflows; shaded steps run automatically via AppSheet bots or Apps Script.</figcaption>
+      </figure>
+    </section>
+
+    <!-- DOCUMENTS -->
+    <section class="case-section">
+      <h2><span class="num">03</span>Project documents</h2>
+      <p class="case-lede">The full deliverable set — viewable inline, or open/download the PDF.</p>
+      <div class="docgrid">
+
+        <article class="doccard">
+          <div class="doccard__head"><h3>Executive Summary</h3><span class="docmeta"></span></div>
+          <p class="doccard__desc">Five-page overview: what was built, the data model, workflow coverage, design decisions, and operating considerations.</p>
+          <div class="doccard__links">
+            <a href="pva-loan-closet/docs/Executive_Summary.pdf" target="_blank" rel="noopener">Open in new tab →</a>
+            <a href="pva-loan-closet/docs/Executive_Summary.pdf" download>Download PDF ↓</a>
+          </div>
+          <object class="doc-embed" data="pva-loan-closet/docs/Executive_Summary.pdf" type="application/pdf" aria-label="Executive Summary PDF">
+            <p style="padding:1rem;color:var(--ink-soft)">Your browser can't display the PDF inline — <a href="pva-loan-closet/docs/Executive_Summary.pdf" target="_blank" rel="noopener">open it here</a>.</p>
+          </object>
+        </article>
+
+        <article class="doccard">
+          <div class="doccard__head"><h3>Source Sheet</h3><span class="docmeta"></span></div>
+          <p class="doccard__desc">One page of the public resources and documentation the build draws on (LGL API, AppSheet, Apps Script).</p>
+          <div class="doccard__links">
+            <a href="pva-loan-closet/docs/Source_Sheet.pdf" target="_blank" rel="noopener">Open in new tab →</a>
+            <a href="pva-loan-closet/docs/Source_Sheet.pdf" download>Download PDF ↓</a>
+          </div>
+          <object class="doc-embed" data="pva-loan-closet/docs/Source_Sheet.pdf" type="application/pdf" aria-label="Source Sheet PDF">
+            <p style="padding:1rem;color:var(--ink-soft)">Your browser can't display the PDF inline — <a href="pva-loan-closet/docs/Source_Sheet.pdf" target="_blank" rel="noopener">open it here</a>.</p>
+          </object>
+        </article>
+
+        <article class="doccard">
+          <div class="doccard__head"><h3>AI Disclosure</h3><span class="docmeta"></span></div>
+          <p class="doccard__desc">A one-page, honest account of how AI was used as a development accelerator and what I own on the project.</p>
+          <div class="doccard__links">
+            <a href="pva-loan-closet/docs/AI_Disclosure.pdf" target="_blank" rel="noopener">Open in new tab →</a>
+            <a href="pva-loan-closet/docs/AI_Disclosure.pdf" download>Download PDF ↓</a>
+          </div>
+          <object class="doc-embed" data="pva-loan-closet/docs/AI_Disclosure.pdf" type="application/pdf" aria-label="AI Disclosure PDF">
+            <p style="padding:1rem;color:var(--ink-soft)">Your browser can't display the PDF inline — <a href="pva-loan-closet/docs/AI_Disclosure.pdf" target="_blank" rel="noopener">open it here</a>.</p>
+          </object>
+        </article>
+
+        <article class="doccard">
+          <div class="doccard__head"><h3>AppSheet Build Guide</h3><span class="docmeta">rendered in-site</span></div>
+          <p class="doccard__desc">The complete step-by-step assembly guide — tables, refs, slices, views, actions, and automation bots with exact expressions. Rendered from the project's Markdown into a full page.</p>
+          <div class="doccard__links">
+            <a href="pva-build-guide.html">Read the build guide →</a>
+            <a href="https://github.com/trevorrobeyinc/trevorrobeyinc.github.io/blob/main/projects/pva-loan-closet/docs/AppSheet_Build_Guide.md" target="_blank" rel="noopener">View source ↗</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- SOURCE -->
+    <section class="case-section">
+      <h2><span class="num">04</span>What's in the project</h2>
+      <p class="case-lede">
+        The full project is included in this repository. It has the backend workbook and a data
+        generator with referential-integrity checks, seven Apps Script files (LGL client, mock
+        fixtures, sync engine, webhook, notifications, and an 11/11 test suite), the diagrams
+        above, and the documents above.
+      </p>
+      <div class="subpage__meta">
+        <a class="btn btn--primary" href="https://github.com/trevorrobeyinc/trevorrobeyinc.github.io/tree/main/projects/pva-loan-closet" target="_blank" rel="noopener">Browse the source →</a>
+        <a class="btn btn--ghost" href="../index.html#contact">Get in touch</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year">2026</span> Trevor Robey · <a href="../index.html">Home</a> · <a href="https://github.com/trevorrobeyinc/trevorrobeyinc.github.io/tree/main/projects/pva-loan-closet" target="_blank" rel="noopener">Project source</a></p>
+  </footer>
+
+  <script src="assets/portfolio.js" defer></script>
+</body>
+</html>

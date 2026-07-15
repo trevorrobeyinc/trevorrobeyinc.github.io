@@ -1,0 +1,16 @@
+SyncID,Timestamp,Direction,ObjectType,LocalID,LGLID,Action,Status,HTTPStatus,Message
+SYN-0101,2026-06-29 14:22,Push,Donor,DNR-001,301245,Match Constituent (email),Success,200,Matched existing constituent; no create needed
+SYN-0102,2026-06-29 14:22,Push,Donation,DON-0001,88112,Create Gift (in-kind $190),Success,201,Gift created under constituent 301245
+SYN-0103,2026-07-01 11:05,Push,Donor,DNR-005,301277,Create Constituent,Success,201,New constituent created
+SYN-0104,2026-07-01 11:06,Push,Donation,DON-0005,88214,Create Gift (in-kind $720),Success,201,Estate donation logged
+SYN-0105,2026-07-07 10:31,Push,Donor,DNR-007,301289,Match Constituent (email),Success,200,
+SYN-0106,2026-07-07 10:31,Push,Donation,DON-0013,88437,Create Gift (in-kind $75),Success,201,
+SYN-0107,2026-07-07 10:32,Push,Donor,DNR-008,,Match Constituent (email),Error,300,Multiple constituent matches (2); manual review required
+SYN-0108,2026-07-07 10:32,Push,Donation,DON-0009,,Create Gift (in-kind $150),Skipped,,Blocked: donor constituent unresolved
+SYN-0109,2026-07-11 15:02,Push,Donor,DNR-009,301301,Create Constituent,Success,201,
+SYN-0110,2026-07-11 15:03,Push,Borrower,BRW-0011,301352,Create Constituent (service contact),Success,201,Borrowers tracked as constituents w/ 'Loan Closet' group
+SYN-0111,2026-07-12 09:00,Pull,Donor,DNR-003,301260,Refresh Constituent,Success,200,Address unchanged
+SYN-0112,2026-07-13 09:00,Push,Donation,DON-0007,,Create Gift (in-kind $230),Pending,,Queued: nightly batch
+SYN-0113,2026-07-13 09:01,Push,Donor,DNR-008,,Retry Match Constituent,Error,300,Still ambiguous; see ticket queue
+SYN-0114,2026-07-14 09:00,Push,Donor,DNR-006,,Create Constituent,Pending,,Queued: nightly batch
+SYN-0115,2026-07-14 09:00,Push,Donation,DON-0014,,Create Gift (in-kind $160),Pending,,Queued: awaiting receipt send

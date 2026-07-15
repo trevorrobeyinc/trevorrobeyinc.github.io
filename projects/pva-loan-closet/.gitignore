@@ -1,0 +1,5 @@
+# OS / editor
+.DS_Store
+
+# node deps for docs/build_docs.js (regenerate with npm install)
+node_modules/

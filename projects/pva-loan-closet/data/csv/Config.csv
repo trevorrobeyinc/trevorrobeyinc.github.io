@@ -1,0 +1,10 @@
+Key,Value,Description
+LoanPeriodDays,90,Default loan period; DueDate = CheckoutDate + this many days
+ReminderDaysBeforeDue,7,Send 'due soon' reminder this many days before DueDate
+OverdueReminderEveryDays,7,Repeat overdue notices at this cadence
+ClosetEmail,loancloset.demo@example.org,From/reply-to address for borrower emails (MOCK)
+StaffAlertEmail,opsdesk.demo@example.org,Staff distro for ticket + overdue alerts (MOCK)
+LGL_Mode,MOCK,MOCK = use canned LGL fixtures; LIVE = call api.littlegreenlight.com
+LGL_BaseUrl,https://api.littlegreenlight.com/api/v1,LGL REST API base URL
+OrgName,Pittsford Volunteer Ambulance — Loan Closet,Display name used in emails/receipts
+TimeZone,America/New_York,Org timezone for automations

@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AppSheet Build Guide — PVA Loan Closet</title>
+  <meta name="description" content="Step-by-step AppSheet build guide for the PVA Mobility Equipment Loan Closet prototype." />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="assets/portfolio.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__brand" href="../index.html" aria-label="Home">TR</a>
+      <nav class="nav__links" id="nav-links" aria-label="Primary">
+        <a href="pva-loan-closet.html">← Case study</a>
+        <a href="../index.html#projects">Projects</a>
+        <a href="../index.html#experience">Experience</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+      <div class="nav__actions">
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle theme"><span class="theme-toggle__icon" aria-hidden="true"></span></button>
+        <button class="nav__burger" id="nav-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+  <main id="main" class="subpage">
+    <div class="subpage__head">
+      <a class="backlink" href="pva-loan-closet.html">← PVA case study</a>
+      <p class="hero__eyebrow">PVA Loan Closet · Documentation</p>
+      <h1>AppSheet Build Guide</h1>
+      <p class="subpage__lede">The full step-by-step guide for assembling the working prototype — tables, refs, slices, views, actions, and automation bots, with the exact expressions. Rendered here from the project's Markdown.</p>
+    </div>
+    <article class="md-body">
+<h1>AppSheet Build Guide — PVA Mobility Equipment Loan Closet</h1>
+<p>Step-by-step assembly instructions for the working prototype. Follow top to bottom;
+each section builds on the last. Budget ~2–3 hours for a first pass.</p>
+<p><strong>Stack:</strong> Google Sheets (backend) → AppSheet (app + event bots) → Apps Script (LGL sync,
+scheduled notifications) → Little Green Light CRM (mock mode).</p>
+<hr>
+<h2>0. Prerequisites</h2>
+<ol>
+<li>A Google account. The free AppSheet tier covers <strong>prototyping only</strong> (the creator
+plus up to 10 explicitly-shared test users, undeployed). Running this for real staff
+needs a paid plan — see §12 for the cost and account-ownership decisions to make
+before deploying. For the interview build, the free tier is enough.</li>
+<li>Upload <code>data/loan_closet_backend.xlsx</code> to Google Drive and <strong>open with Google
+Sheets</strong> (File → Save as Google Sheets). Rename the converted file
+<code>PVA Loan Closet Backend</code>. Delete the original .xlsx from Drive to avoid
+confusion — AppSheet must point at the <em>Google Sheets</em> version.</li>
+<li>Confirm the 10 tabs exist: <code>_ReadMe</code>, <code>Equipment</code>, <code>Donors</code>, <code>Donations</code>,
+<code>Borrowers</code>, <code>Loans</code>, <code>SupportTickets</code>, <code>LGL_SyncLog</code>, <code>Lookups</code>, <code>Config</code>.</li>
+</ol>
+<h2>1. Deploy the Apps Script project (backend integration)</h2>
+<ol>
+<li>In the Google Sheet: <strong>Extensions → Apps Script</strong>.</li>
+<li>Delete the default <code>Code.gs</code>. Create files matching <code>apps-script/</code> in this repo
+and paste contents: <code>Config.gs</code>, <code>LGLClient.gs</code>, <code>LGLMock.gs</code>, <code>SyncEngine.gs</code>,
+<code>WebhookHandler.gs</code>, <code>Notifications.gs</code>, <code>Tests.gs</code>.</li>
+<li>Project Settings → check <strong>Show &quot;appsscript.json&quot;</strong> → replace its contents with
+<code>apps-script/appsscript.json</code>.</li>
+<li>Script Properties (Project Settings → Script Properties):<ul>
+<li><code>WEBHOOK_SHARED_SECRET</code> = any long random string (you&#39;ll reuse it in the bots).</li>
+<li><code>LGL_API_KEY</code> — leave unset; only needed if <code>Config!LGL_Mode</code> is flipped to <code>LIVE</code>.</li>
+</ul>
+</li>
+<li>Run <code>runAllTests</code> once from the editor (grant permissions). Expect <strong>11/11 PASS</strong>.</li>
+<li><strong>Deploy → New deployment → Web app</strong>: Execute as <em>Me</em>, access <em>Anyone</em>.
+Copy the Web App URL — the bots in §7 POST to it.</li>
+<li><strong>Triggers</strong> (clock icon): add time-driven triggers<ul>
+<li><code>dailyLoanScan</code> — every day, 8–9am</li>
+<li><code>morningDigest</code> — every day, 7–8am</li>
+<li><code>nightlyLGLSync</code> — every day, 2–3am</li>
+</ul>
+</li>
+<li>Reload the spreadsheet: a <strong>Loan Closet</strong> menu appears (manual runs + tests).</li>
+</ol>
+<h2>2. Create the AppSheet app</h2>
+<ol>
+<li>Go to <a href="https://www.appsheet.com">appsheet.com</a> → <strong>Create → App → Start with
+existing data</strong> → pick <code>PVA Loan Closet Backend</code>.</li>
+<li>AppSheet imports one table; add the rest via <strong>Data → Add Table</strong>:
+<code>Equipment</code>, <code>Donors</code>, <code>Donations</code>, <code>Borrowers</code>, <code>Loans</code>, <code>SupportTickets</code>,
+<code>LGL_SyncLog</code>, <code>Lookups</code>, <code>Config</code>.</li>
+<li>Table permissions (Data → table → Settings):<table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Are updates allowed?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Equipment, Donors, Donations, Borrowers, Loans, SupportTickets</td>
+<td>Updates + Adds</td>
+</tr>
+<tr>
+<td>LGL_SyncLog</td>
+<td><strong>Read-Only</strong> (script-owned audit trail)</td>
+</tr>
+<tr>
+<td>Lookups, Config</td>
+<td><strong>Read-Only</strong> (admin edits in the sheet)</td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+<h2>3. Column configuration (Data → each table)</h2>
+<p>AppSheet guesses most types; fix these explicitly.</p>
+<h3>Keys and labels</h3>
+<table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Key</th>
+<th>Label</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Equipment</td>
+<td>EquipmentID</td>
+<td>AssetTag</td>
+</tr>
+<tr>
+<td>Donors</td>
+<td>DonorID</td>
+<td>(virtual <code>FullName</code>, see below)</td>
+</tr>
+<tr>
+<td>Donations</td>
+<td>DonationID</td>
+<td>DonationID</td>
+</tr>
+<tr>
+<td>Borrowers</td>
+<td>BorrowerID</td>
+<td>(virtual <code>FullName</code>)</td>
+</tr>
+<tr>
+<td>Loans</td>
+<td>LoanID</td>
+<td>LoanID</td>
+</tr>
+<tr>
+<td>SupportTickets</td>
+<td>TicketID</td>
+<td>TicketID</td>
+</tr>
+</tbody></table>
+<p><code>Initial value</code> for every key column. <strong>Recommended: <code>UNIQUEID()</code></strong> — it is
+collision-safe under concurrent adds and needs no table scan. Use it for all six key
+columns and you are done.</p>
+<p>If you prefer human-readable sequential IDs that match the mock data (e.g. <code>EQ-0007</code>),
+use a valid row-count expression — note <code>[_RowNumber]</code> is AppSheet&#39;s real system
+column (there is no <code>[RowNum]</code>):</p>
+<pre><code>&quot;EQ-&quot; &amp; RIGHT(&quot;0000&quot; &amp; (MAX(SELECT(Equipment[_RowNumber], TRUE)) + 1), 4)
+</code></pre>
+<p>Caveat (see §11): the sequential form can collide if an interior row was deleted, so
+<code>UNIQUEID()</code> is the safer choice for anything beyond the demo. Pick one and keep it
+consistent across tables.</p>
+<h3>Refs (relationships)</h3>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Ref table</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Equipment.DonationID</td>
+<td>Ref</td>
+<td>Donations</td>
+</tr>
+<tr>
+<td>Donations.DonorID</td>
+<td>Ref</td>
+<td>Donors</td>
+</tr>
+<tr>
+<td>Loans.EquipmentID</td>
+<td>Ref</td>
+<td>Equipment</td>
+</tr>
+<tr>
+<td>Loans.BorrowerID</td>
+<td>Ref</td>
+<td>Borrowers</td>
+</tr>
+<tr>
+<td>SupportTickets.EquipmentID</td>
+<td>Ref</td>
+<td>Equipment</td>
+</tr>
+<tr>
+<td>SupportTickets.LoanID</td>
+<td>Ref</td>
+<td>Loans</td>
+</tr>
+</tbody></table>
+<p>AppSheet auto-creates reverse virtual columns (<code>Related Loans</code>, <code>Related SupportTickets</code>, <code>Related Equipments</code>…) — keep them; detail views use them.</p>
+<h3>Enums from Lookups</h3>
+<p>For each enum column, set Type = <strong>Enum</strong>, base type Text, and <em>Valid If</em>:</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Valid If</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Equipment.Category</td>
+<td><code>SELECT(Lookups[Value], [LookupType] = &quot;Category&quot;)</code></td>
+</tr>
+<tr>
+<td>Equipment.Condition / Loans.ConditionOut / ConditionIn</td>
+<td><code>SELECT(Lookups[Value], [LookupType] = &quot;Condition&quot;)</code></td>
+</tr>
+<tr>
+<td>Equipment.Status</td>
+<td><code>SELECT(Lookups[Value], [LookupType] = &quot;EquipmentStatus&quot;)</code></td>
+</tr>
+<tr>
+<td>Loans.Status</td>
+<td><code>SELECT(Lookups[Value], [LookupType] = &quot;LoanStatus&quot;)</code></td>
+</tr>
+<tr>
+<td>SupportTickets.Status</td>
+<td><code>SELECT(Lookups[Value], [LookupType] = &quot;TicketStatus&quot;)</code></td>
+</tr>
+<tr>
+<td>SupportTickets.IssueType</td>
+<td><code>SELECT(Lookups[Value], [LookupType] = &quot;IssueType&quot;)</code></td>
+</tr>
+<tr>
+<td>SupportTickets.Priority</td>
+<td><code>SELECT(Lookups[Value], [LookupType] = &quot;Priority&quot;)</code></td>
+</tr>
+<tr>
+<td>SupportTickets.ReporterType</td>
+<td><code>SELECT(Lookups[Value], [LookupType] = &quot;ReporterType&quot;)</code></td>
+</tr>
+<tr>
+<td>Equipment.AcquisitionType</td>
+<td><code>SELECT(Lookups[Value], [LookupType] = &quot;AcquisitionType&quot;)</code></td>
+</tr>
+</tbody></table>
+<p>Storing enums in a Lookups <em>table</em> (not hardcoded in AppSheet) was a deliberate
+design decision: staff can add a new equipment category by adding a row — no app
+edit, no redeploy.</p>
+<h3>Other column settings</h3>
+<ul>
+<li><code>Equipment.AssetTag</code> → type Text, <strong>Searchable</strong>, and enable <strong>Scannable</strong> (NFC/
+barcode) so the mobile camera can scan QR labels into forms.</li>
+<li><code>Loans.CheckoutDate</code> initial value: <code>TODAY()</code></li>
+<li><code>Loans.DueDate</code> initial value:
+<code>TODAY() + LOOKUP(&quot;LoanPeriodDays&quot;, &quot;Config&quot;, &quot;Key&quot;, &quot;Value&quot;)</code></li>
+<li><code>Loans.Status</code> initial value: <code>&quot;Active&quot;</code></li>
+<li><code>Donations.DonationDate</code> initial value: <code>TODAY()</code></li>
+<li><code>SupportTickets.OpenedAt</code> initial value: <code>NOW()</code></li>
+<li><code>SupportTickets.Status</code> initial value: <code>&quot;New&quot;</code></li>
+<li><code>Borrowers.WaiverOnFile</code> / <code>Donations.ReceiptSent</code> → type Yes/No (sheet stores Y/N;
+set the type&#39;s Yes/No values accordingly or use Enum {Y, N}).</li>
+<li><code>Donors.Email</code>, <code>Borrowers.Email</code> → type Email; phones → type Phone.</li>
+</ul>
+<h3>Virtual columns to add</h3>
+<table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Name</th>
+<th>App formula</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Donors</td>
+<td>FullName</td>
+<td><code>[FirstName] &amp; &quot; &quot; &amp; [LastName]</code></td>
+</tr>
+<tr>
+<td>Borrowers</td>
+<td>FullName</td>
+<td><code>[FirstName] &amp; &quot; &quot; &amp; [LastName]</code></td>
+</tr>
+<tr>
+<td>Loans</td>
+<td>DaysToDue</td>
+<td><code>HOUR([DueDate] - TODAY()) / 24</code></td>
+</tr>
+<tr>
+<td>Loans</td>
+<td>IsOverdue</td>
+<td><code>AND(ISBLANK([ReturnedDate]), [DueDate] &lt; TODAY())</code></td>
+</tr>
+<tr>
+<td>Equipment</td>
+<td>QRCodeImage</td>
+<td><code>CONCATENATE(&quot;https://quickchart.io/qr?size=200&amp;text=&quot;, ENCODEURL([AssetTag]))</code> (type: Image)</td>
+</tr>
+<tr>
+<td>Equipment</td>
+<td>ActiveLoan</td>
+<td><code>ANY(SELECT(Loans[LoanID], AND([EquipmentID] = [_THISROW].[EquipmentID], IN([Status], LIST(&quot;Active&quot;,&quot;Overdue&quot;)))))</code> (type: Ref → Loans)</td>
+</tr>
+</tbody></table>
+<p><code>QRCodeImage</code> gives every item a scannable QR rendered right in its detail view —
+print from there onto label stock, or wire PrintNode later (see Source Sheet).</p>
+<h2>4. Slices (Data → Slices)</h2>
+<table>
+<thead>
+<tr>
+<th>Slice</th>
+<th>Source</th>
+<th>Row filter condition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Available Equipment</td>
+<td>Equipment</td>
+<td><code>[Status] = &quot;Available&quot;</code></td>
+</tr>
+<tr>
+<td>Open Loans</td>
+<td>Loans</td>
+<td><code>IN([Status], LIST(&quot;Active&quot;, &quot;Overdue&quot;))</code></td>
+</tr>
+<tr>
+<td>Overdue Loans</td>
+<td>Loans</td>
+<td><code>[Status] = &quot;Overdue&quot;</code></td>
+</tr>
+<tr>
+<td>Open Tickets</td>
+<td>SupportTickets</td>
+<td><code>NOT(IN([Status], LIST(&quot;Resolved&quot;, &quot;Closed&quot;)))</code></td>
+</tr>
+<tr>
+<td>Pending Receipts</td>
+<td>Donations</td>
+<td><code>[ReceiptSent] &lt;&gt; &quot;Y&quot;</code></td>
+</tr>
+<tr>
+<td>Needs Attention</td>
+<td>Equipment</td>
+<td><code>IN([Status], LIST(&quot;In Repair&quot;, &quot;Quarantined&quot;, &quot;In Cleaning&quot;))</code></td>
+</tr>
+</tbody></table>
+<h2>5. Views (UX → Views)</h2>
+<p><strong>Primary navigation (bottom bar):</strong></p>
+<ol>
+<li><strong>Home</strong> — dashboard view: interactive mode ON, panels = Overdue Loans (deck),
+Open Tickets (deck), Available Equipment summary (chart: count by Category),
+Pending Receipts (deck).</li>
+<li><strong>Inventory</strong> — deck view on Equipment, group by <code>Status</code> then <code>Category</code>,
+sort by AssetTag. Search + scan enabled.</li>
+<li><strong>Loans</strong> — deck view on Open Loans slice, sort by DueDate ascending,
+secondary view &quot;History&quot; (table, all Loans).</li>
+<li><strong>Intake</strong> — form view on Donations (the donation intake workflow entry point).</li>
+<li><strong>Tickets</strong> — deck view on Open Tickets, group by Priority (desc).</li>
+</ol>
+<p><strong>Menu views:</strong> Donors (table), Borrowers (table), Sync Log (table on LGL_SyncLog,
+read-only, sort Timestamp desc), Config note (about page).</p>
+<p><strong>Detail views:</strong> enable &quot;show related&quot; so Equipment shows its loan/ticket history,
+Donors show their donations, Borrowers show their loans.</p>
+<h2>6. Actions (Behavior → Actions)</h2>
+<h3>Check Out (the loan-origination one-tap)</h3>
+<p>On <strong>Equipment</strong>, visible when <code>[Status] = &quot;Available&quot;</code>:</p>
+<ul>
+<li>Action 1 <code>Start Loan</code> — <em>App: go to another view within this app</em> →
+<code>LINKTOFORM(&quot;Loans_Form&quot;, &quot;EquipmentID&quot;, [EquipmentID])</code>
+(pre-fills the equipment; staff picks/creates the borrower, due date defaults).</li>
+<li>On <strong>Loans form save</strong>, Bot 2 (below) flips the equipment row to <code>On Loan</code> —
+keeping the status change server-side so it can never be skipped.</li>
+</ul>
+<h3>Check In (equipment return)</h3>
+<p>On <strong>Loans</strong>, visible when <code>IN([Status], LIST(&quot;Active&quot;,&quot;Overdue&quot;))</code>:</p>
+<ul>
+<li>Action <code>Return Item</code> — <em><strong>App: go to another view within this app</strong></em> →
+<code>LINKTOFORM(&quot;Loans_Return&quot;, &quot;LoanID&quot;, [LoanID])</code>. Build the <code>Loans_Return</code>
+form view to show <strong>only</strong> <code>ConditionIn</code> (mark it <strong>Required</strong>) plus a read-only
+item summary.</li>
+<li>On that form set the <strong>Form saved</strong> column values (or the column initial values)
+so the whole return commits in <strong>one</strong> data change:
+<code>Status = &quot;Returned&quot;</code>, <code>ReturnedDate = TODAY()</code>, <code>CheckedInBy = USEREMAIL()</code>.</li>
+<li><strong>Why a form, not a one-tap set-columns action:</strong> <code>ConditionIn</code> must be captured in
+the <em>same</em> update that flips <code>Status</code> to <code>Returned</code>. Otherwise Bot 3&#39;s repair-ticket
+step (which reads <code>[ConditionIn]</code> on the Status-change event) sees a blank condition
+and never creates the ticket. Capturing both together makes the return atomic.</li>
+<li>Bot 3 (below) then sets the Equipment row to <code>In Cleaning</code> and emails the
+thank-you — return-to-shelf becomes an explicit second step after sanitizing,
+which mirrors real loan-closet practice.</li>
+</ul>
+<h3>Ticket shortcuts</h3>
+<p>On <strong>Equipment</strong>: <code>Report Issue</code> → <code>LINKTOFORM(&quot;SupportTickets_Form&quot;, &quot;EquipmentID&quot;, [EquipmentID])</code>.
+On <strong>SupportTickets</strong>, visible when open: <code>Mark Resolved</code> → set <code>Status = &quot;Resolved&quot;</code>,
+<code>ResolvedAt = NOW()</code>.</p>
+<h3>Donation receipt</h3>
+<p>On <strong>Donations</strong>, visible when <code>[ReceiptSent] &lt;&gt; &quot;Y&quot;</code>:
+<code>Send Receipt</code> → set <code>ReceiptSent = &quot;Y&quot;</code>, <code>ReceiptSentAt = NOW()</code> → Bot 1 fires.</p>
+<h2>7. Automation (Automation → Bots)</h2>
+<blockquote>
+<p>Shared setup for webhook steps: <strong>Step type = Call a webhook</strong>, URL = the Apps
+Script Web App URL from §1.6, HTTP Verb = POST, Body:</p>
+<pre><code class="language-json">{
+  &quot;action&quot;: &quot;SYNC_DONATION&quot;,
+  &quot;id&quot;: &quot;&lt;&lt;[_THISROW].[DonationID]&gt;&gt;&quot;,
+  &quot;secret&quot;: &quot;YOUR-WEBHOOK-SHARED-SECRET&quot;
+}
+</code></pre>
+</blockquote>
+<h3>Bot 1 — Donation Receipt + LGL Sync</h3>
+<ul>
+<li><strong>Event:</strong> Donations, Data change, <em>Updates only</em>,
+condition <code>AND([_THISROW_BEFORE].[ReceiptSent] &lt;&gt; &quot;Y&quot;, [_THISROW_AFTER].[ReceiptSent] = &quot;Y&quot;)</code></li>
+<li><strong>Step 1 (Send an email):</strong> To <code>LOOKUP([_THISROW].[DonorID], &quot;Donors&quot;, &quot;DonorID&quot;, &quot;Email&quot;)</code>.
+Subject: <code>Thank you for your donation to the PVA Loan Closet</code>.
+Body template includes <code>&lt;&lt;[DonationID]&gt;&gt;</code>, <code>&lt;&lt;[DonationDate]&gt;&gt;</code>, <code>&lt;&lt;[ItemCount]&gt;&gt;</code>,
+<code>&lt;&lt;[EstimatedValue]&gt;&gt;</code> and the in-kind receipt language (&quot;no goods or services
+were provided in exchange…&quot;).</li>
+<li><strong>Step 2 (Call a webhook):</strong> <code>&quot;action&quot;: &quot;SYNC_DONATION&quot;</code> — pushes donor +
+in-kind gift to LGL (mock), writes to LGL_SyncLog.</li>
+</ul>
+<h3>Bot 2 — Loan Confirmation</h3>
+<ul>
+<li><strong>Event:</strong> Loans, Data change, <em>Adds only</em>.</li>
+<li><strong>Step 1 (Run a data action):</strong> on the referenced Equipment row, set
+<code>Status = &quot;On Loan&quot;</code>.</li>
+<li><strong>Step 2 (Send an email):</strong> to the borrower — item, asset tag, due date
+<code>&lt;&lt;[DueDate]&gt;&gt;</code>, care instructions, return address/hours.</li>
+<li><strong>Step 3 (Call a webhook):</strong> <code>&quot;action&quot;: &quot;LOAN_NOTE&quot;</code>, id <code>&lt;&lt;[_THISROW].[LoanID]&gt;&gt;</code>
+— stamps the borrower&#39;s LGL record with loan activity.</li>
+</ul>
+<h3>Bot 3 — Return Processing</h3>
+<ul>
+<li><strong>Event:</strong> Loans, Data change, <em>Updates only</em>, condition
+<code>AND([_THISROW_BEFORE].[Status] &lt;&gt; &quot;Returned&quot;, [_THISROW_AFTER].[Status] = &quot;Returned&quot;)</code></li>
+<li><strong>Step 1 (data action):</strong> set referenced Equipment <code>Status = &quot;In Cleaning&quot;</code>.</li>
+<li><strong>Step 2 (email):</strong> thank-you to borrower + &quot;donations welcome&quot; line
+(gentle development hook — this is why borrower records sync to LGL).</li>
+<li><strong>Step 3 (condition <code>[_THISROW_AFTER].[ConditionIn] = &quot;Needs Repair&quot;</code> → data action):</strong>
+create a SupportTickets row (IssueType <code>Repair Needed</code>, Priority <code>Medium</code>).
+This fires correctly because the <code>Return Item</code> form (§6) sets <code>ConditionIn</code> in the
+same update that flips <code>Status</code> to <code>Returned</code>, so the condition can see it.</li>
+</ul>
+<h3>Bot 4 — Ticket Alerts</h3>
+<ul>
+<li><strong>Event:</strong> SupportTickets, Data change, <em>Adds only</em>.</li>
+<li><strong>Step 1 (email):</strong> to staff distro (Config!StaffAlertEmail) with ticket
+details; Subject prefix <code>[URGENT]</code> when <code>[Priority] = &quot;Urgent&quot;</code> via an IFS()
+in the subject template.</li>
+<li><strong>Step 2 (condition <code>[Priority] = &quot;Urgent&quot;</code> → Send a notification):</strong> push
+notification to app users.</li>
+</ul>
+<h3>Bot 5 — Overdue sweep (scheduled, AppSheet-native alternative)</h3>
+<p>The prototype&#39;s authoritative overdue engine is <code>dailyLoanScan</code> in Apps Script
+(per-row cadence + escalation + ticket creation). To demonstrate AppSheet&#39;s
+native scheduler as well, add:</p>
+<ul>
+<li><strong>Event:</strong> Schedule, daily 08:00, ForEachRowInTable ON, table <strong>Overdue Loans</strong> slice.</li>
+<li><strong>Step (email):</strong> overdue notice to <code>[BorrowerID].[Email]</code> referencing
+<code>&lt;&lt;[DueDate]&gt;&gt;</code> and <code>&lt;&lt;[EquipmentID].[Category]&gt;&gt;</code>.
+Keep only one of the two enabled in production to avoid double-sending —
+this prototype ships with the Apps Script version enabled and Bot 5 disabled
+(documented in the Executive Summary as a design decision).</li>
+</ul>
+<h2>8. Format rules (UX → Format Rules)</h2>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Table</th>
+<th>Condition</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Overdue red</td>
+<td>Loans</td>
+<td><code>[Status] = &quot;Overdue&quot;</code></td>
+<td>red text + ⚠ icon</td>
+</tr>
+<tr>
+<td>Due soon amber</td>
+<td>Loans</td>
+<td><code>AND([Status]=&quot;Active&quot;, [DaysToDue] &lt;= 7)</code></td>
+<td>orange text</td>
+</tr>
+<tr>
+<td>Available green</td>
+<td>Equipment</td>
+<td><code>[Status] = &quot;Available&quot;</code></td>
+<td>green highlight</td>
+</tr>
+<tr>
+<td>Out of service grey</td>
+<td>Equipment</td>
+<td><code>IN([Status], LIST(&quot;In Repair&quot;,&quot;Quarantined&quot;,&quot;Retired&quot;))</code></td>
+<td>grey + 🔧 icon</td>
+</tr>
+<tr>
+<td>Urgent ticket</td>
+<td>SupportTickets</td>
+<td><code>[Priority] = &quot;Urgent&quot;</code></td>
+<td>red + bold</td>
+</tr>
+</tbody></table>
+<h2>9. Security &amp; roles</h2>
+<ul>
+<li><strong>Security → Require user signin:</strong> ON (Google auth).</li>
+<li>Add a <code>Staff</code> table later for role granularity; for the prototype, all signed-in
+users are staff. Guard admin actions with
+<code>LOOKUP(USEREMAIL(), &quot;Staff&quot;, &quot;Email&quot;, &quot;Role&quot;) = &quot;Admin&quot;</code> when that table exists.</li>
+<li>LGL_SyncLog, Lookups, Config are read-only in-app (set in §2.3).</li>
+<li>The LGL API key lives ONLY in Apps Script Script Properties — never in the
+sheet, never in AppSheet — so app users can&#39;t extract CRM credentials.</li>
+</ul>
+<h2>10. Test script (demo walkthrough)</h2>
+<p>Run these in order on the finished app — they exercise all four workflows:</p>
+<ol start="0">
+<li><p><strong>Pre-flight the webhook (do this before the interview, not on stage):</strong> in the
+Apps Script editor, open the Web App URL in a browser — <code>doGet</code> should return
+<code>{&quot;ok&quot;:true,...,&quot;mode&quot;:&quot;MOCK&quot;}</code>. Then confirm Bot 1&#39;s webhook actually reaches it:
+run the §10.1 receipt step once and check LGL_SyncLog gains rows. If it doesn&#39;t, the
+webhook URL/secret/access is wrong — and the live fallback that produces the same log
+rows without the webhook is <strong>Loan Closet menu → Run nightly LGL sync now</strong>.</p>
+</li>
+<li><p><strong>Donation intake:</strong> Intake tab → new Donation for donor Harold Weiss
+(DON-0014 pattern) → save → open it → <code>Send Receipt</code> action → check (a) email
+step fired in Automation monitor, (b) LGL_SyncLog gained <code>Create Constituent</code></p>
+<ul>
+<li><code>Create Gift</code> rows (mock), (c) Donations row now shows LGLGiftID.</li>
+</ul>
+</li>
+<li><p><strong>Loan origination:</strong> Inventory → scan/pick an Available walker →
+<code>Start Loan</code> → choose borrower → save → equipment flips to <code>On Loan</code>,
+borrower gets confirmation email (check Automation monitor).</p>
+</li>
+<li><p><strong>Equipment return:</strong> Loans → pick the loan → <code>Return Item</code> → set ConditionIn
+<code>Needs Repair</code> → equipment flips <code>In Cleaning</code>, a repair ticket appears in
+Tickets, thank-you email fires.</p>
+</li>
+<li><p><strong>Support tickets:</strong> Tickets → new ticket, Priority <code>Urgent</code> → staff email +
+push fire; <code>Mark Resolved</code> closes it out.</p>
+</li>
+<li><p><strong>Scheduled logic:</strong> Sheet menu → Loan Closet → <code>Run daily loan scan now</code>. On the
+staged demo date this logs a <strong>due-soon reminder for LN-00018</strong> (the fixture due 7
+days out, with no reminder sent yet) and an <strong>escalating overdue notice for LN-00013</strong>
+(its previous notice is past the 7-day cadence, so its count ticks up). In MOCK mode
+these are written to LGL_SyncLog as <code>DryRun</code> rows rather than emailed. Then run
+<code>Run integration tests (mock)</code> → <strong>11/11 PASS</strong>. (Dates are relative — regenerate the
+backend with <code>data/generate_data.py</code> if the demo slips, and this step still holds.)</p>
+</li>
+</ol>
+<h2>11. Known limitations (also in Executive Summary)</h2>
+<ul>
+<li>Mock LGL layer approximates search-operator syntax; verify against the live
+API sandbox before flipping <code>LGL_Mode = LIVE</code>.</li>
+<li>Sequential human-readable IDs can collide under heavy concurrent adds;
+swap initial values to <code>UNIQUEID()</code> for production.</li>
+<li>Email steps use AppSheet&#39;s sender in the free tier; custom From requires a
+paid plan or the Apps Script MailApp path.</li>
+<li>No offline conflict-resolution policy set yet (AppSheet default last-write-wins).</li>
+<li>Photo columns exist but the prototype ships without seeded images.</li>
+<li><strong>QR images render from quickchart.io</strong> (an external service) at view time. On a
+restricted/guest network the Inventory images may not load — pre-open the Inventory
+view before the demo, or keep a screenshot fallback. QR <em>scanning</em> also needs printed
+labels, so frame it as &quot;labels print from here,&quot; not something scanned live.</li>
+<li><strong>MOCK mode only silences the Apps Script scheduled emails</strong> (they log as <code>DryRun</code>).
+The four AppSheet <em>bot</em> emails (receipt, loan confirmation, return thank-you, ticket
+alert) are sent by AppSheet natively and are <strong>not</strong> gated by <code>LGL_Mode</code> — see §12.</li>
+</ul>
+<h2>12. Operating notes (interview talking points)</h2>
+<p>These are the operational questions a PVA Operations/IT interviewer is likely to ask.
+None require code changes for the prototype; they show the design is deployment-aware.</p>
+<ul>
+<li><strong>What does it cost to run?</strong> Google Sheets + Apps Script are free at this volume.
+AppSheet is the only cost: the free tier is prototype-only, so a real deployment needs
+a paid plan — <strong>AppSheet Core is ~$10/user/month</strong> (or is included with some Google
+Workspace editions). For ~15–20 volunteers that is roughly <strong>$150–$200/month</strong>, and it
+drops to near-zero if only a few staff accounts operate the app while volunteers hand
+items to them. Confirm current pricing at deploy time.</li>
+<li><strong>Whose Google account owns it?</strong> The Sheet, the Apps Script (which runs &quot;Execute as
+Me&quot;), the three time triggers, the Web App, and the AppSheet app should all live under
+a <strong>PVA-owned Google Workspace account</strong> — ideally a shared/service account, not a
+volunteer&#39;s personal Gmail. Otherwise the automations stop and the data becomes
+inaccessible the day that person leaves. Document the owner and a transfer procedure.</li>
+<li><strong>Backup &amp; recovery.</strong> Google Drive keeps file version history on the Sheet (restore a
+bad edit from there). Additionally: turn on <strong>protected ranges</strong> for the <code>Config</code>,
+<code>Lookups</code>, and <code>LGL_SyncLog</code> tabs (they are read-only in the app but still editable in
+the raw Sheet), and schedule a periodic export/copy. A deleted row also matters because
+IDs are minted from the surviving rows — protected ranges prevent accidental deletes.</li>
+<li><strong>Email in the demo.</strong> Because the AppSheet bot emails send for real regardless of
+<code>LGL_Mode</code>, point every bot&#39;s <em>To</em> at one inbox you control for the demo, so testing a
+receipt/confirmation can&#39;t email a fictional address. The scheduled Apps Script emails
+are already dry-run in MOCK.</li>
+<li><strong>Mobility-equipment liability.</strong> The prototype tracks a <code>WaiverOnFile</code> flag and
+<code>WaiverDate</code>. A production step-up: attach the signed waiver PDF (a file/URL column, not
+just a flag), add assumption-of-risk language to the loan-confirmation email, and block
+an item from going <code>On Loan</code> until <code>WaiverOnFile = Y</code> and its condition is not
+<code>Needs Repair</code>. Worth naming explicitly since the lender is an ambulance service.</li>
+</ul>
+
+    </article>
+  </main>
+  <footer class="footer"><p>© <span id="year">2026</span> Trevor Robey · <a href="https://github.com/trevorrobeyinc/trevorrobeyinc.github.io/tree/main/projects/pva-loan-closet" target="_blank" rel="noopener">Project source</a></p></footer>
+  <script src="assets/portfolio.js" defer></script>
+</body>
+</html>
