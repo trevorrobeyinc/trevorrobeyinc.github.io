@@ -1,8 +1,7 @@
 # trevorrobeyinc.github.io
 
 Personal portfolio of **Trevor Robey** — MBA candidate in Artificial Intelligence Systems
-Management (Strayer University), founder of Trevor Robey Inc. and Trevor Robey Intelligence
-Network Citations LLC (Trevor Robey, INC.).
+Management (Strayer University) and founder of Trevor Robey Intelligence Network Citations LLC.
 
 Live at **https://trevorrobeyinc.github.io**
 
@@ -10,9 +9,8 @@ Live at **https://trevorrobeyinc.github.io**
 |------|---------|
 | `/` | Portfolio — projects (by discipline), experience, education, contact |
 | `/products/` | "Inside the Engine" — interactive 3D walkthrough of the research engine |
-| `/openclaw/` | Original OpenClaw Research Intelligence product landing page |
-| `/samples/` | Sample-deliverables request page |
+| `/openclaw/` | Retired; redirects to the business site, trevorobeyinc.com |
+| `/samples/` | Retired; redirects to the business site, trevorobeyinc.com |
 | `/assets/` | Résumé PDF and static assets (Three.js vendored under `assets/vendor/`) |
 
-Business site: **https://trevorobeyinc.com** · OpenClaw source:
-[trevoralexanderrobey/OpenClaw-Research-Agents](https://github.com/trevoralexanderrobey/OpenClaw-Research-Agents)
+Business site: **https://trevorobeyinc.com**

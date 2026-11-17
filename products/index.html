@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Inside the Engine — Trevor Robey Intelligence Network Citations</title>
-<meta name="description" content="An interactive 3D walkthrough of the OpenClaw research engine — the multi-agent pipeline, citation-integrity layer, four intelligence products, and AWS delivery architecture behind Trevor Robey, INC.">
+<meta name="description" content="An interactive 3D walkthrough of the OpenClaw research engine behind Trevor Robey, INC.: the multi-agent pipeline, the citation-integrity gate, and the reports it produces.">
 <meta property="og:title" content="Inside the Engine — Trevor Robey, INC.">
-<meta property="og:description" content="Interactive 3D architecture of a citation-backed biomedical research engine: Scout → Analyst → Synthesizer → Quality Audit, four data products, and native AWS delivery.">
+<meta property="og:description" content="Interactive 3D architecture of a citation-traced biomedical research engine: Scout → Analyst → Synthesizer → Quality Audit, a citation-integrity gate, and sealed, manually delivered reports.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230a0a0f'/><text x='50%25' y='55%25' dominant-baseline='central' text-anchor='middle' fill='%234a90d9' font-family='monospace' font-size='13' font-weight='bold'>TR</text></svg>">
 <style>
@@ -245,10 +245,10 @@ footer .btn-secondary { color: var(--accent); }
     <div class="hero-label">Inside the Engine</div>
     <h1>How the OpenClaw research engine turns public databases into citation-backed intelligence.</h1>
     <p>
-      Trevor Robey, INC. runs an autonomous multi-agent engine that scans authoritative public
-      biomedical registries, analyzes them for signal, and ships reports in which every claim is
-      tied to a real, checkable identifier. Drag the diagram to explore the pipeline — or read the
-      full architecture below.
+      Trevor Robey, INC. runs a multi-agent engine that searches open public biomedical sources,
+      analyzes them for signal, and writes reports in which every cited identifier is checked
+      against the records retrieved for it and re-checked at its public registry. Drag the diagram
+      to explore the pipeline — or read the full architecture below.
     </p>
   </div>
 </header>
@@ -284,7 +284,7 @@ footer .btn-secondary { color: var(--accent); }
 
       <!-- Static fallback (no WebGL / reduced motion) -->
       <div class="fallback">
-        <svg viewBox="0 0 900 200" role="img" aria-label="Research engine pipeline: sources feed Scout, Analyst, Synthesizer, and Quality Audit, producing products delivered over AWS.">
+        <svg viewBox="0 0 900 200" role="img" aria-label="Research engine pipeline: sources feed Scout, Analyst, Synthesizer, and Quality Audit, producing sealed reports delivered manually.">
           <defs>
             <marker id="arw" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#4a90d9"/></marker>
           </defs>
@@ -294,7 +294,7 @@ footer .btn-secondary { color: var(--accent); }
             <rect x="300" y="78" width="90"  height="44" rx="7" fill="#12121a" stroke="#4a90d9"/><text x="345" y="104">Analyst</text>
             <rect x="430" y="78" width="110" height="44" rx="7" fill="#12121a" stroke="#4a90d9"/><text x="485" y="104">Synthesizer</text>
             <rect x="580" y="78" width="120" height="44" rx="7" fill="#12121a" stroke="#4ad991"/><text x="640" y="98">Quality</text><text x="640" y="112">Audit</text>
-            <rect x="740" y="78" width="150" height="44" rx="7" fill="#12121a" stroke="#d9a24a"/><text x="815" y="98">Products</text><text x="815" y="112">→ AWS delivery</text>
+            <rect x="740" y="78" width="150" height="44" rx="7" fill="#12121a" stroke="#d9a24a"/><text x="815" y="98">Products</text><text x="815" y="112">→ sealed bundle</text>
             <g stroke="#4a90d9" stroke-width="1.5" marker-end="url(#arw)" fill="none">
               <line x1="130" y1="100" x2="168" y2="100"/><line x1="260" y1="100" x2="298" y2="100"/>
               <line x1="390" y1="100" x2="428" y2="100"/><line x1="540" y1="100" x2="578" y2="100"/>
@@ -313,29 +313,29 @@ footer .btn-secondary { color: var(--accent); }
     <div class="section-head">
       <div class="section-kicker">The Pipeline</div>
       <h2>Four agent roles, in sequence</h2>
-      <p>Each mission runs as a chain of specialized agents on the OpenClaw framework (Claude Opus reasoning, ~2,100 biomedical tools via the Harvard ToolUniverse toolkit). The run is fail-closed: it stops rather than ship an unverifiable claim.</p>
+      <p>Each mission runs as a chain of specialized agents on the OpenClaw framework (Claude Opus reasoning over open sources such as PubMed, Europe PMC, ClinicalTrials.gov, Open Targets and FDA FAERS, reached through the Harvard ToolUniverse toolkit and purpose-built connectors). The run is fail-closed at the report level: a report does not ship if fewer than 75% of its cited identifiers trace to retrieved evidence, if it cites none, if the run retrieved no evidence, if a cited paper is found retracted, or if a registry says a cited identifier does not exist.</p>
     </div>
     <div class="flow">
       <div class="step">
         <div class="num">01</div><h3>Systematic Database Scan</h3><div class="role">Scout</div>
-        <p>Autonomous scan of FDA registries, peer-reviewed literature, and pharmacological databases, with cross-reference normalization across identifier systems (PMID, NCT, RxNorm, PubChem CID, UniProt).</p>
+        <p>Systematic scan of peer-reviewed literature, trial registries, and FDA drug-label and adverse-event data, with identifiers normalized across systems (PMID, PMCID, NCT, ISRCTN, DOI, PubChem CID, UniProt).</p>
       </div>
       <div class="step">
         <div class="num">02</div><h3>Quantitative Signal Analysis</h3><div class="role">Analyst</div>
         <p>Disproportionality metrics (ROR, PRR), drug-interaction matrices, and pharmacokinetic / pharmacodynamic profiling with molecular-level specificity.</p>
       </div>
       <div class="step">
-        <div class="num">03</div><h3>Cross-Validated Synthesis</h3><div class="role">Synthesizer</div>
-        <p>Integrates scout and analyst outputs into a signal hierarchy: contradiction resolution, confidence-tier assignment, and actionable clinical or strategic recommendations.</p>
+        <div class="num">03</div><h3>Evidence Synthesis</h3><div class="role">Synthesizer</div>
+        <p>Integrates scout and analyst outputs into a signal hierarchy: contradiction resolution, confidence-tier assignment, and strategic recommendations for research and diligence use.</p>
       </div>
       <div class="step">
         <div class="num">04</div><h3>Citation Verification</h3><div class="role">Quality Audit</div>
-        <p>Enforces citation-density thresholds and grounds every cited identifier against the evidence actually retrieved at runtime; screens DOIs for retractions; seals a chain-hashed provenance ledger.</p>
+        <p>Checks every cited identifier against the evidence actually retrieved at runtime, by type and number; screens cited papers for retraction against PubMed and Crossref; re-checks each identifier at its issuing registry and records the result in a reproducibility manifest.</p>
       </div>
     </div>
     <div class="verify-note">
       <div class="t">How verification actually works</div>
-      <p>Citations aren't taken on faith. Each cited identifier is checked against the set of records the engine truly fetched during the run — a run whose grounded ratio falls below threshold hard-fails instead of shipping. Cited DOIs are screened against Crossref for retractions, and the evidence trail is written to an append-only, SHA-256 chain-hashed ledger that earns each report a graded A–F integrity rating. The standard is simple: if a claim can't be traced to a source, it doesn't ship.</p>
+      <p>Citations aren't taken on faith. Each cited identifier is matched, by type and number, to the records the engine actually retrieved during the run: a report with fewer than 75% of its cited identifiers traced does not ship, and any untraced identifier is flagged [UNVERIFIED] at every mention. Cited papers are screened for retraction against PubMed and Crossref, and any paper the screen could not reach is named. Each identifier is then re-checked at its issuing public registry; one the registry says does not exist blocks delivery. Every report carries a citation-integrity ledger with a grounding grade, a reproducibility manifest, and a SHA-256 checksum for every file. These checks confirm that each source exists and was retrieved, not that it supports the sentence citing it.</p>
     </div>
   </div>
 </section>
@@ -344,29 +344,29 @@ footer .btn-secondary { color: var(--accent); }
   <div class="container">
     <div class="section-head">
       <div class="section-kicker">Intelligence Products</div>
-      <h2>Four research-grade data packs</h2>
-      <p>Each pack is a citation-traced dossier built from a defined set of open, public databases — no PHI, no unlicensed data.</p>
+      <h2>Four research templates</h2>
+      <p>Each template produces a citation-traced report built from open, public sources — no PHI, no unlicensed data.</p>
     </div>
     <div class="products">
       <div class="product">
-        <div class="top"><h3>Pharmacovigilance Signal Synthesis</h3><div class="stat">135+<small>citations / report</small></div></div>
-        <p>Adverse-event signal detection, AEMS disproportionality analysis, drug-interaction profiling, and clinical-action recommendations across compound cohorts.</p>
-        <div class="sources">Sources: <b>OpenFDA AEMS</b> · <b>DailyMed</b> · <b>RxNorm</b> · <b>PubMed</b> · <b>OpenFDA</b></div>
+        <div class="top"><h3>Pharmacovigilance Signal Synthesis</h3></div>
+        <p>Adverse-event signal detection, AEMS disproportionality analysis, drug-interaction profiling, and prioritized safety signals across compound cohorts.</p>
+        <div class="sources">Sources: <b>FDA FAERS</b> · <b>DailyMed</b> · <b>openFDA recalls</b> · <b>PubMed</b></div>
       </div>
       <div class="product">
-        <div class="top"><h3>Drug Discovery Intelligence</h3><div class="stat">200+<small>citations / report</small></div></div>
+        <div class="top"><h3>Drug Discovery Intelligence</h3></div>
         <p>Compound profiling with ADMET properties, target–compound mapping, molecular interaction networks, and competitive landscape analysis.</p>
-        <div class="sources">Sources: <b>PubChem</b> · <b>ChEMBL</b> · <b>RxNorm</b> · <b>UniProt</b> · <b>OpenTargets</b></div>
+        <div class="sources">Sources: <b>Open Targets</b> · <b>FDA Orange Book</b> · <b>PubMed</b> · <b>Europe PMC</b></div>
       </div>
       <div class="product">
-        <div class="top"><h3>Clinical Trial Landscape</h3><div class="stat">180+<small>citations / report</small></div></div>
+        <div class="top"><h3>Clinical Trial Landscape</h3></div>
         <p>Global trial mapping, endpoint analysis, enrollment trends, competitor-pipeline tracking, and regulatory-milestone timelines.</p>
-        <div class="sources">Sources: <b>ClinicalTrials.gov</b> · <b>PubMed</b> · <b>WHO ICTRP</b> · <b>EuropePMC</b></div>
+        <div class="sources">Sources: <b>ClinicalTrials.gov</b> · <b>PubMed</b> · <b>Europe PMC</b></div>
       </div>
       <div class="product">
-        <div class="top"><h3>Target Validation Dossier</h3><div class="stat">289+<small>citations / report</small></div></div>
+        <div class="top"><h3>Target Validation Dossier</h3></div>
         <p>Multi-omics target–disease association scoring, genetic-evidence mapping, tissue-expression profiling, and druggability assessment.</p>
-        <div class="sources">Sources: <b>OpenTargets</b> · <b>UniProt</b> · <b>HPA</b> · <b>ChEMBL</b> · <b>RxNorm</b></div>
+        <div class="sources">Sources: <b>Open Targets</b> · <b>PubMed</b> · <b>Europe PMC</b></div>
       </div>
     </div>
   </div>
@@ -375,15 +375,15 @@ footer .btn-secondary { color: var(--accent); }
 <section id="delivery">
   <div class="container">
     <div class="section-head">
-      <div class="section-kicker">Delivery Architecture</div>
-      <h2>Native AWS data-product delivery</h2>
-      <p>Output schemas are built to land directly in a subscriber's cloud — reports, citation-index tables, and provenance manifests, queryable in place.</p>
+      <div class="section-kicker">Delivery</div>
+      <h2>One sealed bundle per report</h2>
+      <p>Each report is delivered manually, by email or a secure download link: the report, its citation index, the citation-integrity ledger and the reproducibility manifest, with a SHA-256 checksum for every file.</p>
     </div>
     <div class="delivery">
-      <div class="dstep"><div class="num">01</div><h3>Per-subscriber buckets</h3><div class="svc">Amazon S3</div><p>Dossiers, citation-index CSVs, and provenance manifests land in a dedicated bucket on a defined schedule.</p></div>
-      <div class="dstep"><div class="num">02</div><h3>SQL-queryable indexes</h3><div class="svc">Amazon Athena</div><p>Citation indexes ship as Parquet — filter by PMID, NCT, ChEMBL, or DOI and join against internal data.</p></div>
-      <div class="dstep"><div class="num">03</div><h3>Warehouse federation</h3><div class="svc">Redshift / Snowflake</div><p>Schemas designed for Redshift and Snowflake secure data sharing — federate dossier metadata into your analytics warehouse.</p></div>
-      <div class="dstep"><div class="num">04</div><h3>Marketplace listing</h3><div class="svc">AWS Data Exchange</div><p>Structured for discovery in the AWS Marketplace catalog — built for biotech investors, funds, and pharma BD teams running diligence on AWS.</p></div>
+      <div class="dstep"><div class="num">01</div><h3>Sealed at assembly</h3><div class="svc">SHA-256 checksums</div><p>Every file is listed with its checksum, so any change after sealing shows.</p></div>
+      <div class="dstep"><div class="num">02</div><h3>Citation index</h3><div class="svc">CSV</div><p>Every cited identifier, and whether it was found in the evidence retrieved for the run.</p></div>
+      <div class="dstep"><div class="num">03</div><h3>Reproducibility manifest</h3><div class="svc">JSON + Markdown</div><p>Each identifier's registry re-check result, with the date it ran.</p></div>
+      <div class="dstep"><div class="num">04</div><h3>How to buy</h3><div class="svc">Invoice or AWS private offer</div><p>Invoiced directly, or as an AWS private offer for buyers who pay through their AWS bill.</p></div>
     </div>
   </div>
 </section>
@@ -396,21 +396,21 @@ footer .btn-secondary { color: var(--accent); }
     </div>
     <div class="engage">
       <div class="tier">
-        <h3>Research Intelligence Pack</h3>
-        <div class="price">$2,500 – $4,950 / report</div>
-        <p>Single-topic dossier (48+ pages), 200+ verified citations across all identifier types, citation-index CSV with provenance, and a methodology statement.</p>
+        <h3>Scoped Research Pack</h3>
+        <div class="price">$4,950</div>
+        <p>One agreed biomedical research question, scoped in writing before the run and answered through the full citation-integrity gate. If the evidence does not exist, the bundle ships the search-coverage ledger documenting exactly that, never a padded report.</p>
         <a class="cta" href="https://trevorobeyinc.com/" target="_blank" rel="noopener">Request a report ↗</a>
       </div>
       <div class="tier">
         <h3>Investor Pre-Mortem</h3>
-        <div class="price">$9,950 / $14,950 / $19,950</div>
-        <p>Per-asset risk dossier — trial design, comparable failures, KOL sentiment, IP runway — with every claim traced to a PMID, NCT, ChEMBL, or DOI, under a refund-backed citation-audit SLA.</p>
+        <div class="price">$9,950 / $14,950 / $19,950 (+ KOL primary)</div>
+        <p>Per-asset risk dossier — trial design, comparable failures, KOL sentiment, IP runway. Every cited PMID, NCT and DOI is checked against the evidence retrieved for the report, and cited papers are screened for retraction, with any the screen could not reach named. Covered by the refund-backed Citation-Audit SLA.</p>
         <a class="cta" href="https://trevorobeyinc.com/" target="_blank" rel="noopener">Discuss an engagement ↗</a>
       </div>
       <div class="tier">
-        <h3>Failed Trial Archaeology &amp; Custom</h3>
-        <div class="price">Scoped per engagement</div>
-        <p>Structured post-mortems of Phase 2/3 terminations (NCT-indexed failure matrix), plus custom multi-asset and ongoing portfolio coverage scoped via a discovery call.</p>
+        <h3>Failed Trial Archaeology</h3>
+        <div class="price">$14,950</div>
+        <p>Structured post-mortem of Phase 2/3 terminations in a single mechanism, with an NCT-indexed failure pattern matrix.</p>
         <a class="cta" href="mailto:trevor@trevorobeyinc.com">Start a conversation</a>
       </div>
     </div>
@@ -426,9 +426,9 @@ footer .btn-secondary { color: var(--accent); }
     </div>
     <p class="legal">
       Trevor Robey, INC. is the wordmark of <b>Trevor Robey Intelligence Network Citations LLC</b>,
-      a California limited liability company (Entity No. B20260217250). INC = Intelligence Network
-      Citations. Powered by the OpenClaw open-source agent framework.
-      <span class="disc">Reports are research artifacts produced using AI-assisted research synthesis with human editorial oversight; every cited identifier is a real public identifier verifiable in its source database. For research and informational use only — not clinical decision support, and not a basis for prescribing, diagnostic, or regulatory decisions. No PHI is processed.</span>
+      a California limited liability company. California entity no. B20260217250. INC = Intelligence
+      Network Citations. Powered by the OpenClaw open-source agent framework.
+      <span class="disc">Reports are research artifacts produced using AI-assisted research synthesis with human editorial oversight; every cited identifier is checked against the evidence retrieved for the report and re-checked at its public registry, and one that fails a check is flagged or blocks delivery. For research and informational use only — not clinical decision support, and not a basis for prescribing, diagnostic, or regulatory decisions. No PHI is processed.</span>
     </p>
   </div>
 </footer>
@@ -475,27 +475,27 @@ async function boot() {
   const C = { source:0x8888a0, agent:0x4a90d9, integ:0x4ad991, product:0xc48be0, deliver:0xd9a24a };
   const nodes = [
     { id:'sources', name:'Public Sources', kind:'source', pos:[-13,3.4,0], r:0.85,
-      kicker:'Ingestion', body:'Open, public biomedical registries queried via the Harvard ToolUniverse toolkit (~2,100 tools) plus purpose-built fetchers. Public-domain / open-license only — no PHI, no unlicensed data.',
-      meta:[['Access','ToolUniverse + local fetchers'],['Policy','Open sources only · No PHI']],
-      chips:['PubMed','ClinicalTrials.gov','OpenFDA AEMS','ChEMBL','PubChem','RxNorm','UniProt','OpenTargets','WHO ICTRP','EuropePMC','Crossref'] },
+      kicker:'Ingestion', body:'Open, public biomedical sources queried through the Harvard ToolUniverse toolkit and purpose-built connectors. Public-domain / open-license only — no PHI, no unlicensed data.',
+      meta:[['Access','ToolUniverse + engine connectors'],['Policy','Open sources only · No PHI']],
+      chips:['PubMed','Europe PMC','Semantic Scholar','OpenAlex','DOAJ','ClinicalTrials.gov','Open Targets','FDA FAERS','DailyMed','FDA Orange Book','NIH RePORTER','SEC EDGAR','Crossref'] },
     { id:'scout', name:'Scout', kind:'agent', pos:[-8.5,1.2,0], r:0.75,
-      kicker:'Pipeline · 01', body:'Systematic database scan of FDA registries, peer-reviewed literature, and pharmacological databases, with cross-reference normalization across identifier systems.',
-      meta:[['Role','Scout'],['Normalizes','PMID · NCT · RxNorm · PubChem CID · UniProt']], chips:['Evidence prefetch','ID normalization'] },
+      kicker:'Pipeline · 01', body:'Systematic scan of peer-reviewed literature, trial registries, and FDA drug-label and adverse-event data, with identifiers normalized across systems.',
+      meta:[['Role','Scout'],['Reads','PMID · PMCID · NCT · ISRCTN · DOI · PubChem CID · UniProt']], chips:['Evidence prefetch','ID normalization'] },
     { id:'analyst', name:'Analyst', kind:'agent', pos:[-4,-0.4,0], r:0.75,
       kicker:'Pipeline · 02', body:'Quantitative signal analysis: disproportionality metrics (ROR, PRR), drug-interaction matrices, and PK/PD profiling with molecular-level specificity.',
       meta:[['Role','Analyst'],['Metrics','ROR · PRR · interaction matrices']], chips:['Disproportionality','PK / PD'] },
     { id:'synth', name:'Synthesizer', kind:'agent', pos:[0.5,1.0,0], r:0.75,
-      kicker:'Pipeline · 03', body:'Cross-validated synthesis: integrates scout and analyst outputs into a signal hierarchy with contradiction resolution, confidence tiers, and actionable recommendations.',
+      kicker:'Pipeline · 03', body:'Evidence synthesis: integrates scout and analyst outputs into a signal hierarchy with contradiction resolution, confidence tiers, and strategic recommendations for research and diligence use.',
       meta:[['Role','Synthesizer'],['Output','Confidence-tiered signal hierarchy']], chips:['Contradiction resolution','Confidence tiers'] },
     { id:'audit', name:'Quality Audit', kind:'integ', pos:[5,-0.2,0], r:0.8,
-      kicker:'Pipeline · 04 · Integrity', body:'Citation verification. Every cited identifier is grounded against the evidence actually fetched at runtime; runs below the grounded-ratio threshold hard-fail. DOIs are screened against Crossref for retractions, and the evidence trail is sealed in a SHA-256 chain-hashed, append-only ledger with a graded A–F integrity rating.',
-      meta:[['Grounding','vs. runtime-fetched evidence'],['Screen','Crossref retraction check'],['Ledger','SHA-256 chain-hashed · A–F grade']], chips:['Zero-fabrication','Retraction screen','Provenance ledger'] },
+      kicker:'Pipeline · 04 · Integrity', body:'Citation verification. Every cited identifier is matched, by type and number, to the evidence retrieved at runtime; a report under 75% traced does not ship, and untraced identifiers are flagged [UNVERIFIED] at every mention. Cited papers are screened for retraction against PubMed and Crossref, and each identifier is re-checked at its issuing public registry.',
+      meta:[['Grounding','type + id vs. retrieved evidence'],['Screen','PubMed + Crossref retractions'],['Re-check','Issuing registry, recorded in a manifest']], chips:['Citation gate','Retraction screen','Reproducibility manifest'] },
     { id:'products', name:'Products', kind:'product', pos:[9.5,1.6,0], r:0.85,
-      kicker:'Deliverables', body:'Four citation-traced data packs: Pharmacovigilance Signal Synthesis (135+), Drug Discovery Intelligence (200+), Clinical Trial Landscape (180+), and Target Validation Dossier (289+ citations per report).',
-      meta:[['Packs','4'],['Every claim','→ a checkable identifier']], chips:['Pharmacovigilance','Drug Discovery','Clinical Trials','Target Validation'] },
-    { id:'delivery', name:'AWS Delivery', kind:'deliver', pos:[13,3.4,0], r:0.8,
-      kicker:'Delivery Architecture', body:'Native AWS data-product delivery: per-subscriber S3 buckets, Parquet citation indexes queryable in Amazon Athena, schemas for Redshift / Snowflake federation, structured for AWS Data Exchange discovery.',
-      meta:[['Landing','Per-subscriber S3'],['Query','Athena (Parquet)'],['Federate','Redshift / Snowflake']], chips:['Amazon S3','Athena','Data Exchange'] },
+      kicker:'Deliverables', body:'Four citation-traced report templates: Pharmacovigilance Signal Synthesis, Drug Discovery Intelligence, Clinical Trial Landscape, and Target Validation Dossier.',
+      meta:[['Templates','4'],['Citations','checked against evidence and registry']], chips:['Pharmacovigilance','Drug Discovery','Clinical Trials','Target Validation'] },
+    { id:'delivery', name:'Delivery', kind:'deliver', pos:[13,3.4,0], r:0.8,
+      kicker:'Delivery', body:'One sealed bundle per report, delivered manually by email or a secure download link, with a SHA-256 checksum for every file. Buyers pay by invoice or through an AWS private offer.',
+      meta:[['Format','Sealed bundle'],['Integrity','SHA-256 per file'],['Purchase','Invoice or AWS private offer']], chips:['Manual delivery','SHA-256 checksums','AWS private offer'] },
   ];
   const edges = [['sources','scout'],['scout','analyst'],['analyst','synth'],['synth','audit'],['audit','products'],['products','delivery']];
 
